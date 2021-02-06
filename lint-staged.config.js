@@ -1,4 +1,4 @@
 module.exports = {
-  '**/*.ts?(x)': () => 'npm type-check',
-  '**/*.(ts|js)?(x)': (filenames) => `npm lint ${filenames.join(' ')}`,
+  '**/*.ts?(x)': () => 'npm run lint',
+  '**/*.(ts|js)?(x)': (filenames) => `npm run lint ${filenames.join(' ')}`,
 }
