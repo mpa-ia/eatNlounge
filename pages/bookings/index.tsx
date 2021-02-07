@@ -16,16 +16,14 @@ function Bookings(): React.ReactElement {
   }, []);
   const createBookingSchedule: bookingTypes.BookTable = (date, hour, duration, tableId) => {
     const bookings = { ...bookingSchedule };
-    if (typeof bookings[date] === 'undefined') {
+    if (!bookings[date]) {
       bookings[date] = {};
     }
     for (let hourBlock = hour; hourBlock < hour + duration; hourBlock += 0.5) {
-      if (typeof bookings[date][hourBlock] === 'undefined') {
+      if (!bookings[date][hourBlock]) {
         bookings[date][hourBlock] = [];
-        bookings[date][hourBlock].push(tableId);
-      } else {
-        bookings[date][hourBlock].push(tableId);
       }
+      bookings[date][hourBlock].push(tableId);
     }
     setBookingSchedule(bookings);
   };
