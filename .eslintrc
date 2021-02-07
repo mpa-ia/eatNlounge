@@ -47,7 +47,30 @@
             "allowExpressions": true,
             "allowConciseArrowFunctionExpressionsStartingWithVoid": true
           }
-        ]
+        ],
+            "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "linebreak-style": 0,
+    "quotes": [
+      "error",
+      "single",
+      {
+        "allowTemplateLiterals": true
+      }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ]
       }
     }
   ]
