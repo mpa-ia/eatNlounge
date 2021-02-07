@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
     <ThemeProvider theme={theme}>
       <Component {...pageProps} />
     </ThemeProvider>
-  </>
+  </>;
 }
 
-export default MyApp
+export default MyApp;
