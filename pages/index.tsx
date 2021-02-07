@@ -1,13 +1,14 @@
-import Head from 'next/head'
-import React from 'react'
+import Head from 'next/head';
+import React from 'react';
+import { content } from '../settings';
 
 export default function Home(): React.ReactElement {
   return (
     <div>
       <Head>
-        <title>Eat N&apos;Lounge</title>
+        <title>{content.general.title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
     </div>
-  )
+  );
 }
