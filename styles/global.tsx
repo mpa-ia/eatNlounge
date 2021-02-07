@@ -1,9 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
+import 'antd/dist/antd.css';
 
 export const theme = {
   colors: {
   },
-}
+};
 
 export const GlobalStyle = createGlobalStyle`
   *,
