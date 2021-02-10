@@ -27,13 +27,17 @@ function Bookings(): React.ReactElement {
     }
     setBookingSchedule(bookings);
   };
+  const submitBooking = (value: any) => {
+    // Todo: API post request in the future
+    console.log(value);
+  };
   return (
     <>
       <Head>
         <title>{content.general.title} | {content.pages.bookings.title}</title>
       </Head>
       <h2>{content.pages.bookings.header}</h2>
-      <BookingForm schedule={bookingSchedule} />
+      <BookingForm schedule={bookingSchedule} onSubmit={submitBooking}/>
     </>
   );
 }

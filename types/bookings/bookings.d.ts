@@ -7,8 +7,20 @@ declare namespace Bookings {
 		[key: string]: HourBlock | never;
 	}
 	type Table = {
-				isFree: boolean;
+		isFree: boolean;
 		selected: boolean;
 		id: string;
+	}
+	interface BookingFormControlledFields {
+		date: Moment;
+		hours: number[];
+		people: number;
+		phone: string;
+		starters: string[];
+		surname: string;
+	}
+
+	interface BookingFormFields extends BookingFormControlledFields {
+		table: string;
 	}
 }

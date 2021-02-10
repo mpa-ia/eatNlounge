@@ -13,6 +13,10 @@ export const settings = {
     { id: 'table_3'},
     { id: 'table_4'},
   ],
+  starters: [
+    { value: 'water', title: 'Lemon Water' },
+    { value: 'bread', title: 'Bread' },
+  ],
   amountWidget: {
     defaultValue: 2,
     defaultMin: 1,
@@ -38,6 +42,10 @@ export const content = {
         enterPeople: 'People',
         pickHours: 'Pick hours',
         pickDate: 'pick date',
+        selectStarters: 'Select starters',
+      },
+      validation: {
+        selectTable: 'Choose table to finish booking process.',
       },
     },
   },

@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react';
-import { DatePicker, InputNumber, Form, Button, Slider, Input } from 'antd';
+import { DatePicker, InputNumber, Form, Button, Slider, Input, Checkbox, notification } from 'antd';
 import Tables from '../Tables';
 import { settings, content } from '../../settings';
 import moment from 'moment';
 import * as BookingFormTypes from './interfaces';
 
 const { hours, amountWidget, datePicker } = settings;
-const { bookingForm } = content.pages.bookings;
+const { bookingForm, validation } = content.pages.bookings;
 
 interface Props {
 	schedule: Bookings.Schedule | undefined; 
+	onSubmit: (value: Bookings.BookingFormFields) => void;
 }
 
 function BookingForm(props: Props): React.ReactElement {
@@ -61,25 +62,48 @@ function BookingForm(props: Props): React.ReactElement {
       };
     });
   const changeBookingHours: BookingFormTypes.ChangeBookingHours = range => { 
-    const [startHour, endHour] = range;
+    const [startHour] = range;
     setStartHour(startHour);
-    setDuration(endHour - startHour);
+    // setDuration(endHour - startHour);
+  };
+  const submitBooking = (values: Bookings.BookingFormControlledFields): void => {
+    if (selectedTable) {
+      props.onSubmit({ ...values, table: selectedTable });
+    } else {
+      notification.error({
+        message: validation.selectTable,
+      });
+    }
   };
   return (
-    <Form>
-      <Form.Item label={bookingForm.pickDate}>
+    <Form
+      onFinish={submitBooking}
+      initialValues={{
+        hours: [hours.defaultMin, hours.defaultMax],
+        date: pickedDate,
+        people: amountWidget.defaultValue,
+        starters: [],
+      }}
+    >
+      <Form.Item
+        label={bookingForm.pickDate}
+        name="date"
+        rules={[{ required: true }]}
+      >
         <DatePicker
           disabledDate={disableDates}
           onChange={updateDate}
           defaultValue={pickedDate}
         />
       </Form.Item>
-      <Form.Item label={bookingForm.pickHours}>
+      <Form.Item
+        label={bookingForm.pickHours}
+        name="hours"
+      >
         <Slider
           range
           min={hours.open}
           max={hours.latest}
-          defaultValue={[hours.defaultMin, hours.defaultMax]}
           step={hours.step}
           tooltipVisible
           marks={{
@@ -90,25 +114,45 @@ function BookingForm(props: Props): React.ReactElement {
           onChange={changeBookingHours}
         />
       </Form.Item>
-      <Form.Item label={bookingForm.enterPeople}>
+      <Form.Item
+        label={bookingForm.enterPeople}
+        name="people"
+      >
         <InputNumber
           min={amountWidget.defaultMin}
           max={amountWidget.defaultMax}
-          defaultValue={amountWidget.defaultValue}
         />
       </Form.Item>
-      <Form.Item label={bookingForm.enterSurname}>
+      <Form.Item
+        label={bookingForm.enterSurname}
+        name="surname"
+        rules={[{ required: true }]}
+      >
         <Input />
       </Form.Item>
-      <Form.Item label={bookingForm.enterPhone}>
+      <Form.Item
+        label={bookingForm.enterPhone}
+        name="phone"
+        rules={[{ required: true }]}
+      >
         <Input />
       </Form.Item>
       <Tables
         tables={defineTablesStatus()}
         onSelect={chooseTable}
       />
+      <Form.Item
+        name="starters"
+        label={bookingForm.selectStarters}
+      >
+        <Checkbox.Group>
+          {settings.starters.map(starter =>
+            <Checkbox key={starter.value} value={starter.value}>{starter.title}</Checkbox>,
+          )}
+        </Checkbox.Group>
+      </Form.Item>
       <Form.Item>
-        <Button>{bookingForm.confirm}</Button>
+        <Button htmlType="submit">{bookingForm.confirm}</Button>
       </Form.Item>
     </Form>
   );
