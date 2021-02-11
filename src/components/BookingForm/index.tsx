@@ -14,16 +14,15 @@ interface Props {
 }
 
 function BookingForm(props: Props): React.ReactElement {
-  const [pickedDate, pickDate] = useState(moment());
+  const [pickedDate, pickDate] = useState(moment().add(1, 'days'));
   const [startHour, setStartHour] = useState<number>(hours.defaultMin);
   // const [duration, setDuration] = useState<number>(hours.defaultMax - hours.defaultMin);
   const [selectedTable, selectTable] = useState<string | null>(null);
   const formatSliderTip = useCallback(
     value => {
       if (value) {
-        if (value % 1 === 0) {
-          return `${value}:00`;
-        } else {
+        if (value % 1 === 0) return `${value}:00`;
+        else {
           const [naturalNumber] = value.toString().split('.');
           return `${naturalNumber}:30`;
         }
@@ -33,12 +32,13 @@ function BookingForm(props: Props): React.ReactElement {
   );
   const disableDates = useCallback(
     current => 
-      current.diff(moment(), 'days') >= datePicker.maxDaysInFuture || current.diff(moment(), 'days') < 0
+      current.diff(moment().add(1, 'days'), 'days') >= datePicker.maxDaysInFuture
+      ||
+      current.diff(moment().add(1, 'days'), 'days') < 0
     , [],
   );
   const updateDate: BookingFormTypes.UpdateDate = date => {
     if (date) pickDate(date);
-
   };
   const chooseTable: BookingFormTypes.ChooseTable = tableId => {
     selectTable(tableId);

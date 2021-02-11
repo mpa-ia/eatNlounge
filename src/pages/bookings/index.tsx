@@ -11,23 +11,29 @@ function Bookings(): React.ReactElement {
   useEffect(() => {
     // Todo: mocked, API call in the future
     bookings.customers.forEach(booking => {
-      createBookingSchedule(booking.date, booking.hour, booking.duration, booking.tableId);
+      setTimeout(
+        createBookingSchedule.bind(null, booking.date, booking.hour, booking.duration, booking.tableId), 500,
+      );
+      // createBookingSchedule(booking.date, booking.hour, booking.duration, booking.tableId);
     });
   }, []);
   const createBookingSchedule: bookingTypes.BookTable = (date, hour, duration, tableId) => {
     const bookings = { ...bookingSchedule };
+    console.log('bookings at beginnig', bookings);
     if (!bookings[date]) {
       bookings[date] = {};
     }
+    console.log('bookings after checking date', bookings);
     for (let hourBlock = hour; hourBlock < hour + duration; hourBlock += 0.5) {
       if (!bookings[date][hourBlock]) {
         bookings[date][hourBlock] = [];
       }
       bookings[date][hourBlock].push(tableId);
     }
+    // console.log(bookings);
     setBookingSchedule(bookings);
   };
-  const submitBooking = (value: any) => {
+  const submitBooking = (value: Bookings.BookingFormFields): void => {
     // Todo: API post request in the future
     console.log(value);
   };
