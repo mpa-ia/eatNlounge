@@ -1,3 +1,7 @@
+import DateOperations from '../helpers/dateOperations';
+import moment from 'moment';
+
+const tomorrow = DateOperations.parseDate(moment().add(1, 'days'));
 export const bookings = {
   event:[
     {
@@ -64,7 +68,7 @@ export const bookings = {
   customers: [
     {
       bookingId: 1,
-      date:'2021/02/11',
+      date: tomorrow,
       hour: 16,
       tableId: 'table_3',
       repeat: false,
@@ -79,7 +83,7 @@ export const bookings = {
     },
     {
       bookingId: 2,
-      date:'2021/02/11',
+      date: tomorrow,
       hour: 18,
       tableId: 'table_2',
       repeat: false,

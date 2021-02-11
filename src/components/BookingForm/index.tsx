@@ -1,23 +1,22 @@
-import React, { useCallback, useState } from 'react';
-import { DatePicker, InputNumber, Form, Button, Slider, Input, Checkbox, notification } from 'antd';
+import React, { useCallback } from 'react';
+import { DatePicker, InputNumber, Form, Button, Slider, Input, Checkbox } from 'antd';
 import Tables from '../Tables';
 import { settings, content } from '../../settings';
-import moment from 'moment';
-import * as BookingFormTypes from './interfaces';
+import moment, { Moment } from 'moment';
 
 const { hours, amountWidget, datePicker } = settings;
-const { bookingForm, validation } = content.pages.bookings;
+const { bookingForm } = content.pages.bookings;
 
 interface Props {
-	schedule: Bookings.Schedule | undefined; 
-	onSubmit: (value: Bookings.BookingFormFields) => void;
+  onBookingHoursChange: BookingFormTypes.ChangeBookingHour;
+  onDatePicking: BookingFormTypes.UpdateDate;
+  onTableSelection: BookingFormTypes.ChooseTable;
+  onSubmit: (value: Bookings.BookingFormFields) => void;
+  pickedDate: Moment;
+  tables: Bookings.Table[];
 }
 
 function BookingForm(props: Props): React.ReactElement {
-  const [pickedDate, pickDate] = useState(moment().add(1, 'days'));
-  const [startHour, setStartHour] = useState<number>(hours.defaultMin);
-  // const [duration, setDuration] = useState<number>(hours.defaultMax - hours.defaultMin);
-  const [selectedTable, selectTable] = useState<string | null>(null);
   const formatSliderTip = useCallback(
     value => {
       if (value) {
@@ -37,50 +36,12 @@ function BookingForm(props: Props): React.ReactElement {
       current.diff(moment().add(1, 'days'), 'days') < 0
     , [],
   );
-  const updateDate: BookingFormTypes.UpdateDate = date => {
-    if (date) pickDate(date);
-  };
-  const chooseTable: BookingFormTypes.ChooseTable = tableId => {
-    selectTable(tableId);
-  };
-  const defineTablesStatus: BookingFormTypes.DefineTablesStatus = () =>
-    settings.tables.map(table => {
-      let isTableFree = true;
-      const date = pickedDate.format('YYYY/MM/DD');
-      if (
-        props.schedule &&
-				props.schedule[date] &&
-				props.schedule[date][startHour] &&
-				props.schedule[date][startHour].includes(table.id)
-      ) {
-        isTableFree = false;
-      }
-      return {
-        ...table,
-        isFree: isTableFree,
-        selected: selectedTable === table.id,
-      };
-    });
-  const changeBookingHours: BookingFormTypes.ChangeBookingHours = range => { 
-    const [startHour] = range;
-    setStartHour(startHour);
-    // setDuration(endHour - startHour);
-  };
-  const submitBooking = (values: Bookings.BookingFormControlledFields): void => {
-    if (selectedTable) {
-      props.onSubmit({ ...values, table: selectedTable });
-    } else {
-      notification.error({
-        message: validation.selectTable,
-      });
-    }
-  };
   return (
     <Form
-      onFinish={submitBooking}
+      onFinish={props.onSubmit}
       initialValues={{
         hours: [hours.defaultMin, hours.defaultMax],
-        date: pickedDate,
+        date: props.pickedDate,
         people: amountWidget.defaultValue,
         starters: [],
       }}
@@ -92,8 +53,7 @@ function BookingForm(props: Props): React.ReactElement {
       >
         <DatePicker
           disabledDate={disableDates}
-          onChange={updateDate}
-          defaultValue={pickedDate}
+          onChange={props.onDatePicking}
         />
       </Form.Item>
       <Form.Item
@@ -111,7 +71,7 @@ function BookingForm(props: Props): React.ReactElement {
             [hours.latest]: { label: <strong>{hours.latest}:00</strong> },
           }}
           tipFormatter={formatSliderTip}
-          onChange={changeBookingHours}
+          onChange={props.onBookingHoursChange}
         />
       </Form.Item>
       <Form.Item
@@ -138,8 +98,8 @@ function BookingForm(props: Props): React.ReactElement {
         <Input />
       </Form.Item>
       <Tables
-        tables={defineTablesStatus()}
-        onSelect={chooseTable}
+        tables={props.tables}
+        onSelect={props.onTableSelection}
       />
       <Form.Item
         name="starters"
@@ -157,5 +117,4 @@ function BookingForm(props: Props): React.ReactElement {
     </Form>
   );
 }
-
 export default BookingForm;
