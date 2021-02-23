@@ -19,26 +19,25 @@ function Bookings(): React.ReactElement {
   const [selectedTable, setselectedTable] = useState<string | null>(null);
   useEffect(() => {
     // Todo: mocked, API call in the future
+    let bookingSchedule = {};
     bookings.customers.forEach(booking => {
-      createBookingSchedule(/* booking.date, booking.hour, booking.duration,  */booking.tableId);
+      const bookingPart = createBookingSchedule(bookingSchedule, booking.tableId, booking.date, booking.hour, booking.duration);
+      bookingSchedule = bookingPart;
     });
+    setBookingSchedule(bookingSchedule);
+
   }, []);
-  const createBookingSchedule: bookingTypes.TableOperation = tableId => {
-    const bookings = { ...bookingSchedule };
-    const date = DateOperations.parseDate(pickedDate);
-    // console.log('bookings at beginnig', bookings);
+  const createBookingSchedule: bookingTypes.CreateBookingSchedule = (bookings, tableId, date, startHour, duration) => {
     if (!bookings[date]) {
       bookings[date] = {};
     }
-    // console.log('bookings after checking date', bookings);
     for (let hourBlock = startHour; hourBlock < startHour + duration; hourBlock += 0.5) {
       if (!bookings[date][hourBlock]) {
         bookings[date][hourBlock] = [];
-      }
+      } 
       bookings[date][hourBlock].push(tableId);
     }
-    // fixme: async, cannot be called in loop
-    setBookingSchedule(bookings);
+    return bookings;
   };
   const changeBookingHours: bookingTypes.ChangeBookingHours = range => { 
     const [startHour, endHour] = range;
@@ -110,7 +109,7 @@ function Bookings(): React.ReactElement {
 
     } else {
       notification.error({
-        message: content.validation.selectTable,
+        message: content.pages.bookings.validation.selectTable,
       });
     }
     console.log(value);
