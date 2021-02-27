@@ -1,3 +1,12 @@
+const DEV_SERVER_URL = 'http://localhost:8000/api';
+export const API_URL = process.env.NODE_ENV === 'production' ? '' : `${DEV_SERVER_URL}`;
+export const API_URL_BOOKINGS = `${API_URL}/bookings`;
+
+
+const SSR_SERVER_URL = 'http://localhost:3000/api';
+export const SSR_API_URL = process.env.NODE_ENV === 'production' ? '' : `${SSR_SERVER_URL}`;
+export const SSR_API_URL_BOOKINGS = `${SSR_API_URL}/bookings`;
+
 export const settings = {
   hours: {
     open: 12,
@@ -25,6 +34,12 @@ export const settings = {
   datePicker: {
     maxDaysInFuture: 14,
   },
+  apiRoutes: {
+    booking: {
+      submit: 'new',
+      list: 'list',
+    },
+  },
 };
 
 export const content = {
@@ -45,6 +60,7 @@ export const content = {
         selectStarters: 'Select starters',
       },
       validation: {
+        success: 'Booking has been submitted succesfully',
         selectTable: 'Choose table to finish booking process.',
       },
     },

@@ -11,16 +11,23 @@ declare namespace Bookings {
 		selected: boolean;
 		id: string;
 	}
-	interface BookingFormControlledFields {
-		date: Moment;
-		hours: number[];
+	interface SharedBookingData {
 		people: number;
 		phone: string;
 		starters: string[];
 		surname: string;
-	}
-
-	interface BookingFormFields extends BookingFormControlledFields {
 		table: string;
 	}
+	interface BookingFormFields extends SharedBookingData {
+		date: Moment;
+		hours: number[];
+	}
+
+	interface Booking extends SharedBookingData {
+		date: string;
+		hour: number;
+		duration: number;
+	}
+
 }
+

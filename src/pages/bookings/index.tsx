@@ -3,25 +3,35 @@ import React, { useState, useEffect } from 'react';
 import BookingForm from '../../components/BookingForm';
 import Head from 'next/head';
 import { content, settings } from '../../settings';
-import { bookings } from '../../settings/bookings';
 import * as bookingTypes from './interfaces';
 import { notification } from 'antd';
 import moment from 'moment';
 import DateOperations from '../../helpers/dateOperations';
+import { GetStaticProps } from 'next';
+import { getBookingsList, submitNewBooking } from '../../services/bookings';
 
 const { hours } = settings;
 
-function Bookings(): React.ReactElement {
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await getBookingsList();
+  return {
+    props: {
+      bookings: response,
+    },
+  };
+};
+  
+function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
   const [bookingSchedule, setBookingSchedule] = useState<Bookings.Schedule>();
   const [startHour, setStartHour] = useState<number>(hours.defaultMin);
   const [duration, setDuration] = useState<number>(hours.defaultMax - hours.defaultMin);
   const [pickedDate, setDate] = useState(moment().add(1, 'days'));
   const [selectedTable, setselectedTable] = useState<string | null>(null);
+
   useEffect(() => {
-    // Todo: mocked, API call in the future
     let bookingSchedule = {};
-    bookings.customers.forEach(booking => {
-      const bookingPart = createBookingSchedule(bookingSchedule, booking.tableId, booking.date, booking.hour, booking.duration);
+    bookings.forEach(booking => {
+      const bookingPart = createBookingSchedule(bookingSchedule, booking.table, booking.date, booking.hour, booking.duration);
       bookingSchedule = bookingPart;
     });
     setBookingSchedule(bookingSchedule);
@@ -73,6 +83,8 @@ function Bookings(): React.ReactElement {
     if (bookingSchedule) {
       for (let hourBlock = startHour; hourBlock < startHour + duration; hourBlock += 0.5) {
         if (
+          bookingSchedule[date]
+          &&
           bookingSchedule[date][hourBlock]
           &&
           bookingSchedule[date][hourBlock].includes(table)
@@ -99,20 +111,29 @@ function Bookings(): React.ReactElement {
   const selectTable: bookingTypes.TableOperation = tableId => {
     setselectedTable(tableId);
   };
-  const submitBooking = (value: Bookings.BookingFormFields): void => {
+  const submitBooking = async (formFieldsData: Bookings.BookingFormFields): Promise<void> => {
     if (selectedTable) {
-      const isTableFree = checkIfTableIsFree(selectedTable);
-      if (!isTableFree) {
+      if (checkIfTableIsFree(selectedTable)) {
+        const payload = {
+          ...formFieldsData,
+          date: DateOperations.parseDate(formFieldsData.date),
+          table: selectedTable,
+        };
+        const res = await submitNewBooking(payload);
+        if (res) {
+          notification.success({
+            message: content.pages.bookings.validation.success,
+          });
+        }
+      } else {
         checkAvailableDuration(selectedTable);
       }
-      // Todo: API post request in the future
-
     } else {
       notification.error({
         message: content.pages.bookings.validation.selectTable,
       });
     }
-    console.log(value);
+
   };
   return (
     <>
