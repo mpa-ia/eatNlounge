@@ -8,9 +8,9 @@ const { hours, amountWidget, datePicker } = settings;
 const { bookingForm } = content.pages.bookings;
 
 interface Props {
-  onBookingHoursChange: BookingFormTypes.ChangeBookingHour;
-  onDatePicking: BookingFormTypes.UpdateDate;
-  onTableSelection: BookingFormTypes.ChooseTable;
+  onBookingHoursChange: (range: number[]) => void;
+  onDatePicking: (date: Moment | null) => void;
+  onTableSelection: (tableId: string) => void;
   onSubmit: (value: Bookings.BookingFormFields) => void;
   pickedDate: Moment;
   tables: Bookings.Table[];
