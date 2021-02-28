@@ -42,7 +42,18 @@ const SignUpForm: React.FunctionComponent<Props> = (props: Props) => {
       <Form.Item
         label={form.confirmPassword}
         name="confirmPassword"
-        rules={[{ required: true }]}
+        dependencies={['password']}
+        hasFeedback
+        rules={[{ required: true },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('The two passwords that you entered do not match!'));
+            },
+          }),
+        ]}
       >
         <Input.Password />
       </Form.Item>
