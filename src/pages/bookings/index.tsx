@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
-import BookingForm from '../../components/BookingForm';
 import Head from 'next/head';
 import { content, settings } from '../../settings';
 import * as bookingTypes from './interfaces';
@@ -10,6 +9,9 @@ import DateOperations from '../../helpers/dateOperations';
 import { GetStaticProps } from 'next';
 import { getBookingsList, submitNewBooking } from '../../services/bookings';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
+
+const BookingForm = dynamic(() => import('../../components/BookingForm'), { ssr: false });
 
 const { hours } = settings;
 
