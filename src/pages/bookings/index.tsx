@@ -9,6 +9,7 @@ import moment from 'moment';
 import DateOperations from '../../helpers/dateOperations';
 import { GetStaticProps } from 'next';
 import { getBookingsList, submitNewBooking } from '../../services/bookings';
+import { useRouter } from 'next/router';
 
 const { hours } = settings;
 
@@ -22,6 +23,7 @@ export const getStaticProps: GetStaticProps = async () => {
 };
   
 function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
+  const router = useRouter();
   const [bookingSchedule, setBookingSchedule] = useState<Bookings.Schedule>();
   const [startHour, setStartHour] = useState<number>(hours.defaultMin);
   const [duration, setDuration] = useState<number>(hours.defaultMax - hours.defaultMin);
@@ -35,8 +37,11 @@ function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
       bookingSchedule = bookingPart;
     });
     setBookingSchedule(bookingSchedule);
+  }, [bookings.length]);
 
-  }, []);
+  const refreshBookings = (): void => {
+    router.replace(router.asPath);
+  };
   const createBookingSchedule: bookingTypes.CreateBookingSchedule = (bookings, tableId, date, startHour, duration) => {
     if (!bookings[date]) {
       bookings[date] = {};
@@ -124,6 +129,7 @@ function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
           notification.success({
             message: content.pages.bookings.validation.success,
           });
+          refreshBookings();
         }
       } else {
         checkAvailableDuration(selectedTable);
