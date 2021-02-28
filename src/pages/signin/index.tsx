@@ -2,15 +2,18 @@ import React from 'react';
 import SignInForm from '../../components/SignInForm';
 import Link from 'next/link';
 import { content } from '../../settings';
-
+import { signIn } from '../../services/auth';
 const SignIn: React.FunctionComponent = () => {
-  const SignIn = (formFieldsData: any): void => { 
-    console.log(formFieldsData);
+  const SignInSubmit = async (formFieldsData: User.SignIn): Promise<void> => { 
+    const res = await signIn(formFieldsData);
+    if (res) {
+      console.log('logged in');
+    }
   };
   return (
     <div>
       <SignInForm
-        onSignIn={SignIn}
+        onSignIn={SignInSubmit}
       />
       <Link href="/signup">
         <a>{content.pages.signUpIn.signUpLink}</a>
