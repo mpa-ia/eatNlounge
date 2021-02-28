@@ -14,10 +14,10 @@ import { useRouter } from 'next/router';
 const { hours } = settings;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await getBookingsList();
+  const bookings = await getBookingsList();
   return {
     props: {
-      bookings: response,
+      bookings,
     },
   };
 };
@@ -33,7 +33,8 @@ function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
   useEffect(() => {
     let bookingSchedule = {};
     bookings.forEach(booking => {
-      const bookingPart = createBookingSchedule(bookingSchedule, booking.table, booking.date, booking.hour, booking.duration);
+      const [startHour, endHour] = booking.hours;
+      const bookingPart = createBookingSchedule(bookingSchedule, booking.table, booking.date, startHour, endHour - startHour);
       bookingSchedule = bookingPart;
     });
     setBookingSchedule(bookingSchedule);

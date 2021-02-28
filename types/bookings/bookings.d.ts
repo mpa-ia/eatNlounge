@@ -17,17 +17,14 @@ declare namespace Bookings {
 		starters: string[];
 		surname: string;
 		table: string;
+		hours: number[];
 	}
 	interface BookingFormFields extends SharedBookingData {
 		date: Moment;
-		hours: number[];
 	}
 
 	interface Booking extends SharedBookingData {
 		date: string;
-		hour: number;
-		duration: number;
 	}
-
 }
 

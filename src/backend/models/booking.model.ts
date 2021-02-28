@@ -1,8 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
-	interface DBBooking extends Bookings.BookingFormFields, Document {
-		date: string;
-	}
+type DBBooking = Bookings.Booking & Document;
 
 const bookingSchema = new mongoose.Schema({
   surname: { type: String, required: true },
