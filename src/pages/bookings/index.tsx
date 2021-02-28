@@ -10,7 +10,7 @@ import { GetStaticProps } from 'next';
 import { getBookingsList, submitNewBooking } from '../../services/bookings';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-
+import Nav from '../../components/Nav';
 const BookingForm = dynamic(() => import('../../components/BookingForm'), { ssr: false });
 
 const { hours } = settings;
@@ -149,6 +149,7 @@ function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
       <Head>
         <title>{content.general.title} | {content.pages.bookings.title}</title>
       </Head>
+      <Nav />
       <h2>{content.pages.bookings.header}</h2>
       <BookingForm
         onSubmit={submitBooking}

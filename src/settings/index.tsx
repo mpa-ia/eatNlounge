@@ -45,6 +45,8 @@ export const settings = {
 export const content = {
   general: {
     title: 'Eat n\'Lounge',
+    signIn: 'Sign In',
+    signUp: 'Sign Up',
   },
   pages: {
     bookings: {
@@ -62,6 +64,18 @@ export const content = {
       validation: {
         success: 'Booking has been submitted succesfully',
         selectTable: 'Choose table to finish booking process.',
+      },
+    },
+    signUpIn: {
+      signInLink: 'Have an account? Sign In.',
+      signUpLink: 'Don\'t have account yet? Sign up.',
+      form: {
+        email: 'E-mail',
+        password: 'Password',
+        confirmPassword: 'Confirm Password',
+        name: 'Name',
+        surname: 'Surname',
+        acceptPolicy: 'I agree with the Policy.',
       },
     },
   },
