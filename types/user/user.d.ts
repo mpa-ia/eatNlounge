@@ -1,4 +1,11 @@
 declare namespace User {
+	interface Data {
+		email: string;
+		name: string;
+		surname: string;
+		role: number;
+		id: string;
+	}
 	interface SignIn {
 		email: string;
 		password: string;
@@ -9,4 +16,5 @@ declare namespace User {
 		confirmPassword: string;
 		acceptPolicy: boolean;
 	}
+
 }

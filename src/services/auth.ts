@@ -1,27 +1,12 @@
-import axios from 'axios';
-import { API_URL_AUTH } from '../settings';
+import { AxiosResponse } from 'axios';
+import SuperFetch from '../helpers/superFetch';
 
-export const signIn = async (payload: User.SignIn): Promise<Bookings.Booking[] | undefined> => {
-  try {
-    const response = await axios.post(`${API_URL_AUTH}/signin`, payload);
-    const data = await response.data.data;
-    if (data) { 
-      localStorage.setItem('token', data.token);
-      return data;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+interface SignInResponse {
+  token: string;
+  user: User.Data;
+}
+export const signIn = async (payload: User.SignIn): Promise<AxiosResponse<ApiResponse<SignInResponse>>> =>
+  SuperFetch.post('auth/signin', false, payload);
 
-export const signUp = async (payload: User.SignIn): Promise<Bookings.Booking[] | undefined> => {
-  try {
-    const response = await axios.post(`${API_URL_AUTH}/signup`, payload);
-    const data = await response.data.data;
-    if (data) { 
-      return data;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const signUp = async (payload: User.SignIn): Promise<AxiosResponse<ApiResponse<undefined>>> =>
+  SuperFetch.post('auth/signup', false, payload);

@@ -16,10 +16,10 @@ const BookingForm = dynamic(() => import('../../components/BookingForm'), { ssr:
 const { hours } = settings;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const bookings = await getBookingsList();
+  const { data } = await getBookingsList();
   return {
     props: {
-      bookings,
+      bookings: data,
     },
   };
 };

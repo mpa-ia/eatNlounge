@@ -36,12 +36,6 @@ export const settings = {
   datePicker: {
     maxDaysInFuture: 14,
   },
-  apiRoutes: {
-    booking: {
-      submit: 'new',
-      list: 'list',
-    },
-  },
 };
 
 export const content = {
