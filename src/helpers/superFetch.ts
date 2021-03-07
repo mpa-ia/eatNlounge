@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SSR_API_URL, API_URL } from '../settings';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
-type BaseType = (url: string, ssr?: boolean, data?: unknown) => Promise<AxiosResponse<ApiResponse<any>>>;
+type BaseType = (url: string, ssr?: boolean, data?: unknown) => Promise<ApiResponse<any>>;
 type Method = 'get' |'post' | 'put' | 'delete';
 
 type SuperFetchType = Record<Method, BaseType>
@@ -20,7 +20,7 @@ export const customHeader = (): CustomHeader => ({
   Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('id_token') : null}`,
 });
 
-const base = (method: Method, url: string, ssr = false, data: unknown | undefined = {}): Promise<AxiosResponse<ApiResponse<any>>> => {
+const base = (method: Method, url: string, ssr = false, data: unknown | undefined = {}): Promise<ApiResponse<any>> => {
   const apiUrl = ssr ? SSR_API_URL : API_URL;
   const safeApiUrl = apiUrl[apiUrl.length - 1] === '/' ? apiUrl.slice(0, apiUrl.length - 1) : apiUrl;
   return axios({
@@ -41,11 +41,11 @@ const base = (method: Method, url: string, ssr = false, data: unknown | undefine
     })
     .catch(err => {
       console.log(err);
-      const { errorCode } = err.response.data;
-      if (errorCode) {
-        console.log(errorCode);
+      // const { errorCode } = err.response.data;
+      // if (errorCode) {
+      // console.log(errorCode);
       // todo: execute error codes
-      }
+      // }
     });
 };
 

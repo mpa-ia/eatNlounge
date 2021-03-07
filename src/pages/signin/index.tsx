@@ -3,11 +3,17 @@ import SignInForm from '../../components/SignInForm';
 import Link from 'next/link';
 import { content } from '../../settings';
 import { signIn } from '../../services/auth';
+import {useUser} from '../../context/user';
+import { useRouter } from 'next/router';
+
 const SignIn: React.FunctionComponent = () => {
+  const { setUser } = useUser();
+  const router = useRouter();
   const SignInSubmit = async (formFieldsData: User.SignIn): Promise<void> => { 
-    const res = await signIn(formFieldsData);
-    if (res) {
-      console.log('logged in');
+    const response = await signIn(formFieldsData);
+    if (response) {
+      setUser(response.data.user);
+      router.replace('/bookings');
     }
   };
   return (

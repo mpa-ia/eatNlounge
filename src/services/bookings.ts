@@ -1,8 +1,8 @@
-import { AxiosResponse } from 'axios';
+// import { AxiosResponse } from 'axios';
 import SuperFetch from '../helpers/superFetch';
 
-export const getBookingsList = async (): Promise<AxiosResponse<ApiResponse<Bookings.Booking[]>>> =>
+export const getBookingsList = async (): Promise<ApiResponse<Bookings.Booking[]>> =>
   SuperFetch.get('bookings', true);
 
-export const submitNewBooking = async (payload: Bookings.BookingFormFields): Promise<AxiosResponse<ApiResponse<undefined>>> =>
+export const submitNewBooking = async (payload: Bookings.BookingFormFields): Promise<ApiResponse<undefined>> =>
   SuperFetch.post('bookings/new', false, payload);

@@ -11,15 +11,16 @@ import { getBookingsList, submitNewBooking } from '../../services/bookings';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Nav from '../../components/Nav';
+
 const BookingForm = dynamic(() => import('../../components/BookingForm'), { ssr: false });
 
 const { hours } = settings;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await getBookingsList();
+  const response = await getBookingsList();
   return {
     props: {
-      bookings: data,
+      bookings: response ? response.data : [],
     },
   };
 };
