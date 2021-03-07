@@ -8,7 +8,7 @@ type UserContextProps = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const UserContext = React.createContext<UserContextProps>({ userData: null, setUser: () => { } });
+const UserContext = React.createContext<UserContextProps | never>({ userData: null, setUser: () => { console.warn('initialize'); }});
 
 export const UserProvider: React.FC = ({ children }) => {
   const [userData, setUserData ] = React.useState<User.Data | null>(null);
