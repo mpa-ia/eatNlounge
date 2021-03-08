@@ -1,9 +1,11 @@
 declare namespace User {
-	interface Data {
+	interface DBUser {
 		email: string;
 		name: string;
 		surname: string;
 		role: number;
+	} 
+	interface Data extends DBUser {
 		id: string;
 	}
 	interface SignIn {

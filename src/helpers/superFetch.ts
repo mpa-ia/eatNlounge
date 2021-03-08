@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SSR_API_URL, API_URL } from '../settings';
+import { SSR_API_URL, API_URL, COOKIES_DOMAIN } from '../settings';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 type BaseType = (url: string, ssr?: boolean, data?: unknown) => Promise<ApiResponse<any>>;
 type Method = 'get' |'post' | 'put' | 'delete';
@@ -11,13 +12,11 @@ type SuperFetchType = Record<Method, BaseType>
 interface CustomHeader {
   'Content-Type': string;
   Accept: string;
-  Authorization: string;
 }
 
 export const customHeader = (): CustomHeader => ({
   'Content-Type': 'application/json',
   Accept: 'application/json',
-  Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('id_token') : null}`,
 });
 
 const base = (method: Method, url: string, ssr = false, data: unknown | undefined = {}): Promise<ApiResponse<any>> => {
@@ -33,7 +32,7 @@ const base = (method: Method, url: string, ssr = false, data: unknown | undefine
       if (response.data.status === 'success') {
         const { data } = response.data;
         if (data && data.token) {
-          localStorage.setItem('id_token', data.token);
+          Cookies.set('id_token', data.token), { path: '/', domain: COOKIES_DOMAIN };
         }
         return response.data;
       }
