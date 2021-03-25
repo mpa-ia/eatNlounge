@@ -2,6 +2,7 @@
 import { SSR_API_URL, API_URL, COOKIES_DOMAIN } from '../settings';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import codesHandler from '../helpers/codesHandler';
 
 type BaseType = (url: string, ssr?: boolean, data?: unknown) => Promise<ApiResponse<any>>;
 type Method = 'get' |'post' | 'put' | 'delete';
@@ -9,15 +10,6 @@ type Method = 'get' |'post' | 'put' | 'delete';
 type SuperFetchType = Record<Method, BaseType>
 // info: optionally type SuperFetchType = { [key in Method]: BaseType };
 
-interface CustomHeader {
-  'Content-Type': string;
-  Accept: string;
-}
-
-export const customHeader = (): CustomHeader => ({
-  'Content-Type': 'application/json',
-  Accept: 'application/json',
-});
 
 const base = (method: Method, url: string, ssr = false, data: unknown | undefined = {}): Promise<ApiResponse<any>> => {
   const apiUrl = ssr ? SSR_API_URL : API_URL;
@@ -25,7 +17,10 @@ const base = (method: Method, url: string, ssr = false, data: unknown | undefine
   return axios({
     url: `${safeApiUrl}/${url}`,
     method,
-    headers: { ...customHeader() },
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
     data: method === 'post' || method === 'put' || method === 'delete' ? JSON.stringify(data) : null,
   })
     .then(response => {
@@ -39,12 +34,10 @@ const base = (method: Method, url: string, ssr = false, data: unknown | undefine
       else throw response;
     })
     .catch(err => {
-      console.log(err);
-      // const { errorCode } = err.response.data;
-      // if (errorCode) {
-      // console.log(errorCode);
-      // todo: execute error codes
-      // }
+      if (err.response.data) {
+        codesHandler.executeCode(err.response.data.errorCode, 'error');
+      }
+
     });
 };
 
