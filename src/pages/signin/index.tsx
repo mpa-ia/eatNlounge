@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SignInForm from '../../components/SignInForm';
 import Link from 'next/link';
 import { content } from '../../settings';
@@ -7,8 +7,13 @@ import {useUser} from '../../context/user';
 import { useRouter } from 'next/router';
 
 const SignIn: React.FunctionComponent = () => {
-  const { setUser } = useUser();
+  const { setUser, userData } = useUser();
   const router = useRouter();
+  useEffect(() => {
+    if (userData) {
+      router.replace('/bookings');
+    }
+  }, [userData]);
   const SignInSubmit = async (formFieldsData: User.SignIn): Promise<void> => { 
     const response = await signIn(formFieldsData);
     if (response) {
