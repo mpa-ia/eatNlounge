@@ -23,6 +23,10 @@ class CodesHandler {
         return {
           message: 'Cannot sign up', description: 'Account already exists.',
         };
+      case (errorCodes.AUTH_PASSWORDS_DONT_MATCH):
+        return {
+          message: 'Cannot sign up', description: 'Passwords don\'t match.',
+        };
       default: return { message: 'Unknown error', description: ''};
     }
   }
