@@ -4,7 +4,7 @@ import Head from 'next/head';
 import { content, settings } from '../../settings';
 import * as bookingTypes from './interfaces';
 import { notification } from 'antd';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import DateOperations from '../../helpers/dateOperations';
 import { GetStaticProps } from 'next';
 import { getBookingsList, submitNewBooking } from '../../services/bookings';
@@ -120,7 +120,7 @@ function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
   const selectTable: bookingTypes.TableOperation = tableId => {
     setselectedTable(tableId);
   };
-  const submitBooking = async (formFieldsData: Bookings.BookingFormFields): Promise<void> => {
+  const submitBooking = async (formFieldsData: Bookings.SingleData<Moment>): Promise<void> => {
     if (selectedTable) {
       if (checkIfTableIsFree(selectedTable)) {
         const payload = {

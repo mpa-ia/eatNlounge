@@ -11,7 +11,7 @@ interface Props {
   onBookingHoursChange: (range: number[]) => void;
   onDatePicking: (date: Moment | null) => void;
   onTableSelection: (tableId: string) => void;
-  onSubmit: (value: Bookings.BookingFormFields) => void;
+  onSubmit: (value: Bookings.SingleData<Moment>) => void;
   pickedDate: Moment;
   tables: Bookings.Table[];
 }

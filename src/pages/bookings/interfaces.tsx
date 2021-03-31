@@ -14,5 +14,5 @@ export type CheckIfTableIsFree = (tableId: string) => boolean;
 
 
 export interface Props {
-	bookings: Bookings.Booking[];
+	bookings: Bookings.SingleData<string>[];
 }

@@ -11,20 +11,14 @@ declare namespace Bookings {
 		selected: boolean;
 		id: string;
 	}
-	interface SharedBookingData {
+	interface SingleData<TDate> {
 		people: number;
 		phone: string;
 		starters: string[];
 		surname: string;
 		table: string;
 		hours: number[];
-	}
-	interface BookingFormFields extends SharedBookingData {
-		date: Moment;
-	}
-
-	interface Booking extends SharedBookingData {
-		date: string;
+		date: TDate;
 	}
 }
 
