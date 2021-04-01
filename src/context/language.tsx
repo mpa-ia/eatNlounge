@@ -5,14 +5,21 @@ import Cookies from 'js-cookie';
 
 export const TranslationContext = React.createContext<LanguageProviderProps>({
   setLanguage: () => { console.warn('initialize'); },
-  language: 'pl',
+  currentLanguage: 'pl',
   translations: { ok: 'ok' },
+  languages: {
+    default: {
+      translations: { ok: 'ok'},
+      localName: 'default',
+    },
+  },
 });
 type SetLanguage =  (lang: string) => void;
 export type LanguageProviderProps = {
 	setLanguage: SetLanguage
-	language: string;
+	currentLanguage: string;
 	translations: Translations;
+	languages: Languages;
 };
 
 type Translations = { [key: string]: string };
@@ -24,19 +31,18 @@ interface Languages {
   [key: string]: Language;
 }
 
-const languages: Languages = {
-  pl: {
-    translations: pl,
-    localName: 'Polski',
-  },
-  en: {
-    translations: en,
-    localName: 'English',
-  },
-};
-
 export const LanguageProvider: React.FC = ({ children }) => {
-  const [language, setLang] = useState<string>('pl');
+  const [currentLanguage, setLang] = useState<string>('pl');
+  const [ languages ] = useState<Languages>({
+    pl: {
+      translations: pl,
+      localName: 'Polski',
+    },
+    en: {
+      translations: en,
+      localName: 'English',
+    },
+  });
   useEffect(() => {
     const savedLang = Cookies.get('eat_lang');
     if (savedLang) {
@@ -51,10 +57,10 @@ export const LanguageProvider: React.FC = ({ children }) => {
       setLang('pl');
     }
   };
-  const { translations } = languages[language];
+  const { translations } = languages[currentLanguage];
   return (
     <TranslationContext.Provider
-      value={{ translations, language, setLanguage }}
+      value={{ translations, currentLanguage, setLanguage, languages }}
     >
       {children}
     </TranslationContext.Provider>
@@ -62,6 +68,6 @@ export const LanguageProvider: React.FC = ({ children }) => {
 };
 
 export const useLanguage = (): LanguageProviderProps => {
-  const { translations, language, setLanguage } = React.useContext(TranslationContext);
-  return { translations, language, setLanguage };
+  const { translations, currentLanguage, setLanguage, languages } = React.useContext(TranslationContext);
+  return { translations, currentLanguage, setLanguage, languages };
 };
