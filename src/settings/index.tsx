@@ -1,3 +1,5 @@
+import Tln from '../components/languageProvider/Tln';
+
 const DEV_SERVER_URL = 'http://localhost:8000/api';
 export const API_URL = process.env.NODE_ENV === 'production' ? '' : `${DEV_SERVER_URL}`;
 export const API_URL_BOOKINGS = `${API_URL}/bookings`;
@@ -29,8 +31,8 @@ export const settings = {
     { id: 'table_4'},
   ],
   starters: [
-    { value: 'water', title: 'Lemon Water' },
-    { value: 'bread', title: 'Bread' },
+    { value: 'water', title: <Tln id="BOOKINGS_STARTER_WATER"/> },
+    { value: 'bread', title: <Tln id="BOOKINGS_STARTER_BREAD"/> },
   ],
   amountWidget: {
     defaultValue: 2,
@@ -45,37 +47,37 @@ export const settings = {
 export const content = {
   general: {
     title: 'Eat n\'Lounge',
-    signIn: 'Sign In',
-    signUp: 'Sign Up',
+    signIn: <Tln id="SIGN_IN"/>,
+    signUp: <Tln id="SIGN_UP"/>,
   },
   pages: {
     bookings: {
-      header: 'Book a Table',
-      title: 'Book a Table',
+      header: <Tln id="BOOKINGS_BOOK_TABLE"/>,
+      title: <Tln id="BOOKINGS_BOOK_TABLE"/>,
       bookingForm: {
-        confirm: 'Confirm',
-        enterPhone: 'Phone No.',
-        enterSurname: 'Name and Surname',
-        enterPeople: 'People',
-        pickHours: 'Pick hours',
-        pickDate: 'pick date',
-        selectStarters: 'Select starters',
+        confirm: <Tln id="CONFIRM"/>,
+        enterPhone: <Tln id="BOOKINGS_PHONE"/>,
+        enterSurname: <Tln id="BOOKINGS_SURNAME"/>,
+        enterPeople: <Tln id="BOOKINGS_PEOPLE"/>,
+        pickHours: <Tln id="BOOKINGS_PICK_HOURS"/>,
+        pickDate: <Tln id="BOOKINGS_PICK_DATE"/>,
+        selectStarters: <Tln id="BOOKINGS_SELECT_STARTERS"/>,
       },
       validation: {
-        success: 'Booking has been submitted succesfully',
-        selectTable: 'Choose table to finish booking process.',
+        success: <Tln id="BOOKINGS_SUBMIT_SUCCESS"/>,
+        selectTable: <Tln id="BOOKINGS_SUBMIT_ERROR_NO_TABLE"/>,
       },
     },
     signUpIn: {
-      signInLink: 'Have an account? Sign In.',
-      signUpLink: 'Don\'t have account yet? Sign up.',
+      signInLink: <Tln id="SIGN_IN_LINK"/>,
+      signUpLink: <Tln id="SIGN_UP_LINK"/>,
       form: {
         email: 'E-mail',
-        password: 'Password',
-        confirmPassword: 'Confirm Password',
-        name: 'Name',
-        surname: 'Surname',
-        acceptPolicy: 'I agree with the Policy.',
+        password: <Tln id="SIGN_FORM_PASSWORD"/>,
+        confirmPassword: <Tln id="SIGN_FORM_PASSWORD_CONFIRM"/>,
+        name: <Tln id="SIGN_FORM_NAME"/>,
+        surname: <Tln id="SIGN_FORM_SURNAME"/>,
+        acceptPolicy: <Tln id="SIGN_FORM_ACCEPT_POLICY"/>,
       },
     },
   },
