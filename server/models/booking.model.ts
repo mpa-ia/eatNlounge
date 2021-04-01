@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
-type DBBooking = Bookings.Booking & Document;
+type DBBooking = Bookings.SingleData<string> & Document;
 
 const bookingSchema = new mongoose.Schema({
   surname: { type: String, required: true },

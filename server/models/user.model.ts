@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
+import { DBUser as DBUserInterface } from '../../types/user/user';
 
-type DBUser = User.DBUser & Document;
+type DBUser = DBUserInterface & Document;
 
 const userSchema = new mongoose.Schema({
   surname: { type: String, required: true },
