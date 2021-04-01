@@ -10,7 +10,6 @@ type UserContextProps = {
   logout: () => void;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const UserContext = React.createContext<UserContextProps | never>({
   userData: null,
   setUser: () => {
