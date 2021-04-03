@@ -1,14 +1,14 @@
 import { AppProps } from 'next/app';
 import React from 'react';
-import { ThemeProvider } from 'styled-components';
-import { GlobalStyle, theme } from '../styles/global';
+import { GlobalStyle } from '../styles/global';
 import {UserProvider} from '../context/user';
 import {LanguageProvider} from '../context/language';
+import {ThemeProvider } from '../context/theme';
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   return <>
-    <GlobalStyle />
-    <ThemeProvider theme={theme}>
+    <ThemeProvider>
+      <GlobalStyle />
       <LanguageProvider>
         <UserProvider>
           <Component {...pageProps} />

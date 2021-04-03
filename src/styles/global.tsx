@@ -1,11 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 import 'antd/dist/antd.css';
 
-export const theme = {
-  colors: {
-  },
-};
-
 export const GlobalStyle = createGlobalStyle`
   *,
   *::before,
@@ -18,6 +13,8 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
 		font-size: 1.6rem;
+    background-color: ${({ theme }) => theme.body.background};
+    color: ${({ theme }) => theme.body.color};
 	}
 	a {
   color: inherit;

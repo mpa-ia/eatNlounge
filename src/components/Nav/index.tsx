@@ -4,6 +4,7 @@ import { content } from '../../settings';
 import { useUser } from '../../context/user';
 import { Button } from 'antd';
 import LanguageSwitcher from '../languageProvider/languageSwitcher';
+import ThemeSwitcher from '../ThemeSwitcher';
 const Nav: React.FunctionComponent = () => {
   const { userData, logout } = useUser();
   return (
@@ -19,6 +20,7 @@ const Nav: React.FunctionComponent = () => {
         </Link>
       }
       <LanguageSwitcher />
+      <ThemeSwitcher />
     </nav>
   );
 };
