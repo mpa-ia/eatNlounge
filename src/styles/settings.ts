@@ -8,6 +8,7 @@ export const variables = {
     success: '#5fb470',
     warning: '#dda438',
     danger: '#f44336',
+    default: '#999999',
   },
 };
 

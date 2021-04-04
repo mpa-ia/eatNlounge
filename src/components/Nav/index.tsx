@@ -5,10 +5,12 @@ import { useUser } from '../../context/user';
 import { Button } from 'antd';
 import LanguageSwitcher from '../languageProvider/languageSwitcher';
 import ThemeSwitcher from '../ThemeSwitcher';
+import * as Style from './Nav.style';
+
 const Nav: React.FunctionComponent = () => {
   const { userData, logout } = useUser();
   return (
-    <nav>
+    <Style.NavBar>
       {userData ?
         <>
           <span>{userData.name} {userData.surname}</span>
@@ -21,7 +23,7 @@ const Nav: React.FunctionComponent = () => {
       }
       <LanguageSwitcher />
       <ThemeSwitcher />
-    </nav>
+    </Style.NavBar>
   );
 };
 export default Nav;
