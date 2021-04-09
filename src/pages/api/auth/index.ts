@@ -6,14 +6,6 @@ import dbConnect from '../../../../server/config/dbConnect';
 
 export default async function handler(req: Request, res: Response): Promise<void> {
   await dbConnect();
-  switch (req.url) {
-    case '/api/auth': {
-      authenticate(req, res);
-      break;
-    }
-  }
-}
-const authenticate = async (req: Request, res: Response): Promise<void> => {
   try {
     if (req.headers.cookie) {
       const [, token] = req.headers.cookie.split('=');
@@ -49,4 +41,4 @@ const authenticate = async (req: Request, res: Response): Promise<void> => {
   } catch (err) {
     res.status(500).json({ error: true, errorCode: errorCodes.UNKNOWN_ERROR });
   }
-};
+}
