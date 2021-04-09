@@ -11,6 +11,9 @@ const Nav: React.FunctionComponent = () => {
   const { userData, logout } = useUser();
   return (
     <Style.NavBar>
+
+      <LanguageSwitcher />
+      <ThemeSwitcher />
       {userData ?
         <>
           <span>{userData.name} {userData.surname}</span>
@@ -21,8 +24,6 @@ const Nav: React.FunctionComponent = () => {
           <a>{content.general.signIn}</a>
         </Link>
       }
-      <LanguageSwitcher />
-      <ThemeSwitcher />
     </Style.NavBar>
   );
 };
