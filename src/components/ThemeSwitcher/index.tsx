@@ -1,6 +1,10 @@
 import React from 'react';
 import { useTheme } from '../../context/theme';
 import { Switch } from 'antd';
+import Icon from '@ant-design/icons';
+import MoonSvg from '../../../public/icons/moon.svg';
+import SunSvg from '../../../public/icons/sun.svg';
+
 
 const ThemeSwitcher: React.FunctionComponent = () => {
   const { setTheme, currentTheme } = useTheme();
@@ -9,9 +13,11 @@ const ThemeSwitcher: React.FunctionComponent = () => {
   };
   return (
     <Switch
-      checkedChildren="Light mode"
-      unCheckedChildren="Dark mode"
-      defaultChecked={currentTheme === 'light'} onChange={switchTheme} />
+      unCheckedChildren={<Icon component={SunSvg} />}
+      checkedChildren={<Icon component={MoonSvg} />}
+      defaultChecked={currentTheme === 'light'}
+      onChange={switchTheme}
+    />
   );
 };
 
