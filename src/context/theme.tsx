@@ -28,7 +28,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
     if (Object.keys(themes).includes(theme)) {
       setColorMode(theme);
       mapThemeObject(themes[theme]);
-      Cookies.set('eat_theme', theme);
+      // Cookies.set('eat_theme', theme);
     } else {
       setColorMode('light');
       mapThemeObject(themes['light']);
