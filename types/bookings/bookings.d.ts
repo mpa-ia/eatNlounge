@@ -12,6 +12,7 @@ declare namespace Bookings {
 		id: string;
 	}
 	interface SingleData<TDate> {
+		_id: string;
 		people: number;
 		phone: string;
 		starters: string[];
@@ -21,5 +22,6 @@ declare namespace Bookings {
 		date: TDate;
 		userId?: string;
 	}
+	type BookingPayload<TDate> = Omit<SingleData<TDate>, '_id'>
 }
 

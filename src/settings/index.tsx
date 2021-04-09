@@ -80,5 +80,8 @@ export const content = {
         acceptPolicy: <Tln id="SIGN_FORM_ACCEPT_POLICY"/>,
       },
     },
+    user: {
+      myBookings: <Tln id="USER_MY_BOOKINGS" />,
+    },
   },
 };

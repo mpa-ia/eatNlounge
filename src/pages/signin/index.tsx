@@ -11,14 +11,15 @@ const SignIn: React.FunctionComponent = () => {
   const router = useRouter();
   useEffect(() => {
     if (userData) {
-      router.replace('/bookings');
+      router.replace('/user/dashboard');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userData]);
   const SignInSubmit = async (formFieldsData: User.SignIn): Promise<void> => { 
     const response = await signIn(formFieldsData);
     if (response) {
       setUser(response.data.user);
-      router.replace('/bookings');
+      router.replace('/user/dashboard');
     }
   };
   return (

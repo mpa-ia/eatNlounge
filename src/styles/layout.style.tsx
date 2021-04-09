@@ -14,4 +14,9 @@ export const Card = styled(({ type, ...rest }: CardProps) => <div {...rest} />)`
 	color: ${({ type }) => type === 'darkShade' ? variables.color.lightShades : variables.color.darkShade};
 	padding: 1.4rem;
 	box-shadow: 3px 1px 10px 3px ${ variables.color.default };
+	h3 {
+		text-transform: uppercase;
+		/* color:  */
+		font-size: 1.4rem;
+	}
 `;
