@@ -10,6 +10,7 @@ import { GetStaticProps } from 'next';
 import { getBookingsList, submitNewBooking } from '../../services/bookings';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
+import { useUser } from '../../context/user';
 
 const BookingForm = dynamic(() => import('../../components/BookingForm'), { ssr: false });
 
@@ -26,6 +27,7 @@ export const getStaticProps: GetStaticProps = async () => {
   
 function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
   const router = useRouter();
+  const { userData } = useUser();
   const [bookingSchedule, setBookingSchedule] = useState<Bookings.Schedule>();
   const [startHour, setStartHour] = useState<number>(hours.defaultMin);
   const [duration, setDuration] = useState<number>(hours.defaultMax - hours.defaultMin);
@@ -127,6 +129,9 @@ function Bookings({ bookings }: bookingTypes.Props): React.ReactElement {
           date: DateOperations.parseDate(formFieldsData.date),
           table: selectedTable,
         };
+        if (userData) {
+          payload.userId = userData.id;
+        }
         const res = await submitNewBooking(payload);
         if (res) {
           notification.success({

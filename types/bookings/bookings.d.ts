@@ -19,6 +19,7 @@ declare namespace Bookings {
 		table: string;
 		hours: number[];
 		date: TDate;
+		userId?: string;
 	}
 }
 
