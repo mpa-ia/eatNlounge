@@ -1,7 +1,7 @@
-import DateOperations from '../helpers/dateOperations';
+import DateOperations from '../helpers/timeFormatter';
 import moment from 'moment';
 
-const tomorrow = DateOperations.parseDate(moment().add(1, 'days'));
+const tomorrow = DateOperations.parseMomentToReadableDate(moment().add(1, 'days'));
 export const bookings = {
   event:[
     {

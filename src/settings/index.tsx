@@ -1,4 +1,5 @@
 import Tln from '../components/languageProvider/Tln';
+import moment from 'moment';
 
 const DEV_SERVER_URL = 'http://localhost:8000/api';
 export const API_URL = process.env.NODE_ENV === 'production' ? '' : `${DEV_SERVER_URL}`;
@@ -41,6 +42,7 @@ export const settings = {
   },
   datePicker: {
     maxDaysInFuture: 14,
+    defaultDate: moment().add(1, 'days'),
   },
 };
 
@@ -82,6 +84,8 @@ export const content = {
     },
     user: {
       myBookings: <Tln id="USER_MY_BOOKINGS" />,
+      bookingPreview: <Tln id="USER_BOOKING_PREVIEW" />,
+      clickToPreview: <Tln id="USER_BOOKING_CLICK_TO_PREVIEW" />,
     },
   },
 };
