@@ -16,7 +16,7 @@ const BookingPreview = dynamic(() => import('../BookingPreview'), { ssr: false }
 const { hours, amountWidget, datePicker } = settings;
 const { bookingForm } = content.pages.bookings;
   
-function Bookings({ bookings, initialValues }: bookingTypes.Props): React.ReactElement {
+function Bookings({ bookings, initialValues, readOnly = false}: bookingTypes.Props): React.ReactElement {
   const router = useRouter();
   const { userData } = useUser();
   const [bookingSchedule, setBookingSchedule] = useState<Bookings.Schedule>();
@@ -24,7 +24,6 @@ function Bookings({ bookings, initialValues }: bookingTypes.Props): React.ReactE
   const [duration, setDuration] = useState<number>(hours.defaultMax - hours.defaultMin);
   const [pickedDate, setDate] = useState(initialValues ? timeFormatter.parseTimestampToMoment(initialValues.date) : datePicker.defaultDate);
   const [selectedTable, setselectedTable] = useState<string | null>(null);
-  // const [readOnly, toggleReadOnly] = useState(false);
   useEffect(() => {
     let bookingSchedule = {};
     bookings.forEach(booking => {
@@ -160,12 +159,14 @@ function Bookings({ bookings, initialValues }: bookingTypes.Props): React.ReactE
         onDatePicking={pickDate}
         onTableSelection={selectTable}
         tables={defineTablesStatus()}
-        pickedDate={pickedDate}		
-        readOnly={false}
+        pickedDate={pickedDate}
+        readOnly={readOnly}
       />
-      <Form.Item>
-        <Button htmlType="submit">{bookingForm.confirm}</Button>
-      </Form.Item>
+      {readOnly ? null :
+        <Form.Item>
+          <Button htmlType="submit">{bookingForm.confirm}</Button>
+        </Form.Item>
+      }
     </Form>
   );
 }
