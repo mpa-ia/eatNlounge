@@ -34,10 +34,9 @@ const base = (method: Method, url: string, ssr = false, data: unknown | undefine
       else throw response;
     })
     .catch(err => {
-      if (err.response.data) {
+      if (err.response && err.response.data) {
         codesHandler.executeCode(err.response.data.errorCode, 'error');
       }
-
     });
 };
 
