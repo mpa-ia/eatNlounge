@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { content } from '../../../settings';
 import { Card } from '../../../styles/layout.style';
@@ -8,12 +9,16 @@ import { useRouter } from 'next/router';
 import BookingListItem from '../../../components/BookingListItem';
 import Booking from '../../../components/Booking';
 
+
 const UserDashboard: React.FunctionComponent = () => {
   const { userData } = useUser();
   const router = useRouter();
 
   const [userBookings, setBookings] = useState<Bookings.SingleData<number>[]>([]);
   const [previewId, setPreviewId] = useState<string | null>(null);
+  const [previewData, setPreviewData] = useState<Bookings.SingleData<number> | null>();
+  const [ previewReadOnly, toggleReadOnly] = useState(false);
+
   useEffect(() => {
     if (!userData) {
       router.replace('/signin');
@@ -26,10 +31,23 @@ const UserDashboard: React.FunctionComponent = () => {
       };
       getUserBookings();
     }
-  });
+  }, []);
+  useEffect(() => {
+    if (previewId) {
+      const filteredData = userBookings.filter(booking => booking._id === previewId)[0];
+      setPreviewData(filteredData);
+    } else {
+      setPreviewData(null);
+    }
+  }, [previewId]);
   const activateBookingPreview = (id: string): void => {
+    toggleReadOnly(true);
     setPreviewId(id);
   };
+  // const editBooking = (id: string) => {
+  //   toggleReadOnly(false);
+  //   setPreviewId(id);
+  // };
   return (
     <div>
       <Row>
@@ -53,15 +71,13 @@ const UserDashboard: React.FunctionComponent = () => {
         <Col span={12}>
           <Card type="darkAccent">
             <h3>{content.pages.user.bookingPreview}</h3>
-            {previewId ?
-              userBookings
-                .filter(booking => booking._id = previewId)
-                .map(booking =>
-                  <Booking
-                    key={booking._id}
-                    bookings={[booking]}
-                    initialValues={booking}
-                  />)
+            {previewId && previewData ?
+              <Booking
+                key={previewData._id}
+                bookings={[previewData]}
+                initialValues={previewData}
+                readOnly={previewReadOnly}
+              />
               : <span>{content.pages.user.clickToPreview}</span>}
           </Card>
         </Col>
