@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { content } from '../../../settings';
 import { Card } from '../../../styles/layout.style';
 import { Col, Row } from 'antd';
-import { getBookingsByUser } from '../../../services/bookings';
+import { getBookingsByUser, getBookingsList } from '../../../services/bookings';
 import {useUser} from '../../../context/user';
 import { useRouter } from 'next/router';
 import BookingListItem from '../../../components/BookingListItem';
@@ -15,9 +15,11 @@ const UserDashboard: React.FunctionComponent = () => {
   const router = useRouter();
 
   const [userBookings, setBookings] = useState<Bookings.SingleData<number>[]>([]);
+  const [allBookings, setAllBookings] = useState<Bookings.SingleData<number>[]>([]);
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<Bookings.SingleData<number> | null>();
   const [ previewReadOnly, toggleReadOnly] = useState(false);
+  const [editExisting, toggleEditExisting] = useState(false);
 
   useEffect(() => {
     if (!userData) {
@@ -44,14 +46,20 @@ const UserDashboard: React.FunctionComponent = () => {
     toggleReadOnly(true);
     setPreviewId(id);
   };
-  // const editBooking = (id: string) => {
-  //   toggleReadOnly(false);
-  //   setPreviewId(id);
-  // };
+  const editBooking = async (id: string): Promise<void> => {
+    setPreviewId(id);
+    toggleEditExisting(true);
+    const res = await getBookingsList();
+    if (res) {
+      const bookingsWithoutEdited = res.data.filter(booking => booking._id !== id);
+      setAllBookings(bookingsWithoutEdited);
+      toggleReadOnly(false);
+    }
+  };
   return (
     <div>
-      <Row>
-        <Col span={12}>
+      <Row justify="space-around">
+        <Col span={10}>
           <Card type="darkAccent" >
             <h3>{content.pages.user.myBookings}</h3>
             <ul>
@@ -61,22 +69,23 @@ const UserDashboard: React.FunctionComponent = () => {
                   key={booking._id}
                   booking={booking}
                   onCancel={() => { console.log('cancel');}}
-                  onEdit={() => { console.log('delete'); }}
+                  onEdit={editBooking}
                   onPreview={activateBookingPreview}
                 />,
               )}
             </ul>
           </Card>
         </Col>
-        <Col span={12}>
+        <Col span={10}>
           <Card type="darkAccent">
             <h3>{content.pages.user.bookingPreview}</h3>
             {previewId && previewData ?
               <Booking
                 key={previewData._id}
-                bookings={[previewData]}
+                bookings={editExisting ? allBookings : [previewData]}
                 initialValues={previewData}
                 readOnly={previewReadOnly}
+                editExistingBooking={editExisting}
               />
               : <span>{content.pages.user.clickToPreview}</span>}
           </Card>

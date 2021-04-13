@@ -5,6 +5,8 @@ import { content } from '../../settings';
 import { signIn } from '../../services/auth';
 import {useUser} from '../../context/user';
 import { useRouter } from 'next/router';
+import { Card } from '../../styles/layout.style';
+import { Col, Row } from 'antd';
 
 const SignIn: React.FunctionComponent = () => {
   const { setUser, userData } = useUser();
@@ -24,12 +26,18 @@ const SignIn: React.FunctionComponent = () => {
   };
   return (
     <div>
-      <SignInForm
-        onSignIn={SignInSubmit}
-      />
-      <Link href="/signup">
-        <a>{content.pages.signUpIn.signUpLink}</a>
-      </Link>
+      <Row>
+        <Col span={12} offset={6}>
+          <Card type="lightAccent" >
+            <SignInForm
+              onSignIn={SignInSubmit}
+            />
+            <Link href="/signup">
+              <a>{content.pages.signUpIn.signUpLink}</a>
+            </Link>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Button } from 'antd';
 import LanguageSwitcher from '../languageProvider/languageSwitcher';
 import ThemeSwitcher from '../ThemeSwitcher';
 import * as Style from './Nav.style';
+import Tln from '../languageProvider/Tln';
 
 const Nav: React.FunctionComponent = () => {
   const { userData, logout } = useUser();
@@ -17,7 +18,7 @@ const Nav: React.FunctionComponent = () => {
       {userData ?
         <>
           <span>{userData.name} {userData.surname}</span>
-          <Button onClick={logout}>Logout</Button>
+          <Button onClick={logout}><Tln id="LOGOUT" /></Button>
         </>
         :
         <Link href="/signin">

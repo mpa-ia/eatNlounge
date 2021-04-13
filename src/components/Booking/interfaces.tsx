@@ -17,4 +17,5 @@ export interface Props {
 	bookings: Bookings.SingleData<number>[];
 	initialValues?: Bookings.SingleData<number>;
 	readOnly?: boolean;
+	editExistingBooking?: boolean;
 }

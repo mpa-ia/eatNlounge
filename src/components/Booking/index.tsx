@@ -4,7 +4,7 @@ import { content, settings } from '../../settings';
 import * as bookingTypes from './interfaces';
 import { notification } from 'antd';
 import { Moment } from 'moment';
-import { submitNewBooking } from '../../services/bookings';
+import { submitNewBooking, editBooking } from '../../services/bookings';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import { useUser } from '../../context/user';
@@ -16,17 +16,19 @@ const BookingPreview = dynamic(() => import('../BookingPreview'), { ssr: false }
 const { hours, amountWidget, datePicker } = settings;
 const { bookingForm } = content.pages.bookings;
   
-function Bookings({ bookings, initialValues, readOnly = false}: bookingTypes.Props): React.ReactElement {
+function Bookings({ bookings, initialValues, readOnly = false, editExistingBooking = false}: bookingTypes.Props): React.ReactElement {
   const router = useRouter();
   const { userData } = useUser();
   const [bookingSchedule, setBookingSchedule] = useState<Bookings.Schedule>();
-  const [startHour, setStartHour] = useState<number>(hours.defaultMin);
-  const [duration, setDuration] = useState<number>(hours.defaultMax - hours.defaultMin);
+  const [startHour, setStartHour] = useState<number>(initialValues? initialValues.hours[0] : hours.defaultMin);
+  const [duration, setDuration] = useState<number>(initialValues ? initialValues.hours[1] - initialValues.hours[0] : hours.defaultMax - hours.defaultMin);
   const [pickedDate, setDate] = useState(initialValues ? timeFormatter.parseTimestampToMoment(initialValues.date) : datePicker.defaultDate);
   const [selectedTable, setselectedTable] = useState<string | null>(initialValues? initialValues.table : null);
   useEffect(() => {
     let bookingSchedule = {};
+    console.log('set booking schedule', bookings);
     bookings.forEach(booking => {
+      console.table(booking);
       const [startHour, endHour] = booking.hours;
       const date = timeFormatter.parseUnixToReadableDate(booking.date);
       const bookingPart = createBookingSchedule(bookingSchedule, booking.table, date, startHour, endHour - startHour);
@@ -123,10 +125,18 @@ function Bookings({ bookings, initialValues, readOnly = false}: bookingTypes.Pro
         if (userData) {
           payload.userId = userData.id;
         }
-        const res = await submitNewBooking(payload);
+        const res =
+          editExistingBooking && initialValues ?
+            await editBooking(initialValues._id, payload)
+            :
+            await submitNewBooking(payload);
         if (res) {
           notification.success({
-            message: content.pages.bookings.validation.success,
+            message:
+              editExistingBooking ?
+                content.pages.bookings.validation.editSuccess
+                :
+                content.pages.bookings.validation.success,
           });
           refreshBookings();
         }

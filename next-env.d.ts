@@ -9,3 +9,9 @@ declare module '*.svg' {
   const content: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
   export default content;
 }
+
+interface ApiResponse<T> {
+  status: 'success';
+  code?: number;
+  data: T;
+}

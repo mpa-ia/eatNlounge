@@ -66,7 +66,8 @@ export const content = {
         selectStarters: <Tln id="BOOKINGS_SELECT_STARTERS"/>,
       },
       validation: {
-        success: <Tln id="BOOKINGS_SUBMIT_SUCCESS"/>,
+        success: <Tln id="BOOKINGS_SUBMIT_SUCCESS" />,
+        editSuccess: <Tln id="BOOKINGS_EDIT_SUCCESS" />,
         selectTable: <Tln id="BOOKINGS_SUBMIT_ERROR_NO_TABLE"/>,
       },
     },
