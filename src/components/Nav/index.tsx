@@ -17,7 +17,10 @@ const Nav: React.FunctionComponent = () => {
       <ThemeSwitcher />
       {userData ?
         <>
-          <span>{userData.name} {userData.surname}</span>
+          <span></span>
+          <Link href="/user/dashboard">
+            <a>{userData.name} {userData.surname}</a>
+          </Link>
           <Button onClick={logout}><Tln id="LOGOUT" /></Button>
         </>
         :

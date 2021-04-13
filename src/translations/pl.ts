@@ -29,5 +29,5 @@ export default {
   USER_MY_BOOKINGS: 'Moje rezerwacje',
   USER_BOOKING_PREVIEW: 'Podgląd rezerwacji',
   USER_BOOKING_CLICK_TO_PREVIEW: 'Wybierz rezerwację z listy, aby wyświetlić jej szczegóły',
-
+  USER_BOOKING_NO_BOOKINGS: 'Brak rezerwacji',
 };

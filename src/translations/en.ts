@@ -29,4 +29,5 @@ export default {
   USER_MY_BOOKINGS: 'My bookings',
   USER_BOOKING_PREVIEW: 'Booking preview',
   USER_BOOKING_CLICK_TO_PREVIEW: 'Click on booking to see its details',
+  USER_BOOKING_NO_BOOKINGS: 'No bookings',
 };

@@ -87,6 +87,7 @@ export const content = {
       myBookings: <Tln id="USER_MY_BOOKINGS" />,
       bookingPreview: <Tln id="USER_BOOKING_PREVIEW" />,
       clickToPreview: <Tln id="USER_BOOKING_CLICK_TO_PREVIEW" />,
+      noBookings: <Tln id="USER_BOOKING_NO_BOOKINGS" />,
     },
   },
 };
