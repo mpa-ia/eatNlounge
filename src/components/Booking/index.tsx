@@ -16,7 +16,7 @@ const BookingPreview = dynamic(() => import('../BookingPreview'), { ssr: false }
 const { hours, amountWidget, datePicker } = settings;
 const { bookingForm } = content.pages.bookings;
   
-function Bookings({ bookings, initialValues, readOnly = false, editExistingBooking = false}: bookingTypes.Props): React.ReactElement {
+function Bookings({ bookings, initialValues, readOnly = false, editExistingBooking = false, onEditModeClose = undefined}: bookingTypes.Props): React.ReactElement {
   const router = useRouter();
   const { userData } = useUser();
   const [bookingSchedule, setBookingSchedule] = useState<Bookings.Schedule>();
@@ -26,9 +26,7 @@ function Bookings({ bookings, initialValues, readOnly = false, editExistingBooki
   const [selectedTable, setselectedTable] = useState<string | null>(initialValues? initialValues.table : null);
   useEffect(() => {
     let bookingSchedule = {};
-    console.log('set booking schedule', bookings);
     bookings.forEach(booking => {
-      console.table(booking);
       const [startHour, endHour] = booking.hours;
       const date = timeFormatter.parseUnixToReadableDate(booking.date);
       const bookingPart = createBookingSchedule(bookingSchedule, booking.table, date, startHour, endHour - startHour);
@@ -131,6 +129,9 @@ function Bookings({ bookings, initialValues, readOnly = false, editExistingBooki
             :
             await submitNewBooking(payload);
         if (res) {
+          if (editExistingBooking && onEditModeClose) {
+            onEditModeClose();
+          }
           notification.success({
             message:
               editExistingBooking ?

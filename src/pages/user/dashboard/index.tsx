@@ -8,7 +8,8 @@ import {useUser} from '../../../context/user';
 import { useRouter } from 'next/router';
 import BookingListItem from '../../../components/BookingListItem';
 import Booking from '../../../components/Booking';
-
+import Link from 'next/link';
+import { PlusCircleFilled } from '@ant-design/icons';
 
 const UserDashboard: React.FunctionComponent = () => {
   const { userData } = useUser();
@@ -18,19 +19,13 @@ const UserDashboard: React.FunctionComponent = () => {
   const [allBookings, setAllBookings] = useState<Bookings.SingleData<number>[]>([]);
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<Bookings.SingleData<number> | null>();
-  const [ previewReadOnly, toggleReadOnly] = useState(false);
+  const [previewReadOnly, toggleReadOnly] = useState(false);
   const [editExisting, toggleEditExisting] = useState(false);
 
   useEffect(() => {
     if (!userData) {
       router.replace('/signin');
     } else {
-      const getUserBookings = async (): Promise<void> => {
-        const response = await getBookingsByUser(userData.id);
-        if (response) {
-          setBookings(response.data);
-        }
-      };
       getUserBookings();
     }
   }, []);
@@ -45,6 +40,14 @@ const UserDashboard: React.FunctionComponent = () => {
   const activateBookingPreview = (id: string): void => {
     toggleReadOnly(true);
     setPreviewId(id);
+  };
+  const getUserBookings = async (): Promise<void> => {
+    if (userData) {
+      const res = await getBookingsByUser(userData.id);
+      if (res) {
+        setBookings(res.data);
+      }
+    }
   };
   const editBooking = async (id: string): Promise<void> => {
     setPreviewId(id);
@@ -61,32 +64,37 @@ const UserDashboard: React.FunctionComponent = () => {
     if (res && userData) {
       setPreviewId(null);
       setPreviewData(null);
-      const res = await getBookingsByUser(userData.id);
-      if (res) {
-        setBookings(res.data);
-      }
+      getUserBookings();
     }
-
-
+  };
+  const handleSuccessfullBookingUpdate = (): void => {
+    toggleEditExisting(false);
+    setAllBookings([]);
+    toggleReadOnly(true);
+    getUserBookings();
   };
   return (
     <div>
       <Row justify="space-around">
         <Col span={10}>
           <Card type="darkAccent" >
+            <Link href="/bookings">
+              <a><PlusCircleFilled /></a>
+            </Link>
             <h3>{content.pages.user.myBookings}</h3>
-            <ul>
-
-              {userBookings.map(booking =>
-                <BookingListItem
-                  key={booking._id}
-                  booking={booking}
-                  onCancel={cancel}
-                  onEdit={editBooking}
-                  onPreview={activateBookingPreview}
-                />,
-              )}
-            </ul>
+            {userBookings.length ?
+              <ul>
+                {userBookings.map(booking =>
+                  <BookingListItem
+                    key={booking._id}
+                    booking={booking}
+                    onCancel={cancel}
+                    onEdit={editBooking}
+                    onPreview={activateBookingPreview}
+                  />,
+                )}
+              </ul>
+              : <span>{content.pages.user.noBookings}</span>}
           </Card>
         </Col>
         <Col span={10}>
@@ -99,6 +107,7 @@ const UserDashboard: React.FunctionComponent = () => {
                 initialValues={previewData}
                 readOnly={previewReadOnly}
                 editExistingBooking={editExisting}
+                onEditModeClose={handleSuccessfullBookingUpdate }
               />
               : <span>{content.pages.user.clickToPreview}</span>}
           </Card>

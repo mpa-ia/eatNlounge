@@ -18,4 +18,5 @@ export interface Props {
 	initialValues?: Bookings.SingleData<number>;
 	readOnly?: boolean;
 	editExistingBooking?: boolean;
+	onEditModeClose?: () => void;
 }
