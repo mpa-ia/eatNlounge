@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { content } from '../../../settings';
 import { Card } from '../../../styles/layout.style';
 import { Col, Row } from 'antd';
-import { getBookingsByUser, getBookingsList } from '../../../services/bookings';
+import { getBookingsByUser, getBookingsList, cancelBooking } from '../../../services/bookings';
 import {useUser} from '../../../context/user';
 import { useRouter } from 'next/router';
 import BookingListItem from '../../../components/BookingListItem';
@@ -56,6 +56,19 @@ const UserDashboard: React.FunctionComponent = () => {
       toggleReadOnly(false);
     }
   };
+  const cancel = async (id: string): Promise<void> => {
+    const res = await cancelBooking(id);
+    if (res && userData) {
+      setPreviewId(null);
+      setPreviewData(null);
+      const res = await getBookingsByUser(userData.id);
+      if (res) {
+        setBookings(res.data);
+      }
+    }
+
+
+  };
   return (
     <div>
       <Row justify="space-around">
@@ -68,7 +81,7 @@ const UserDashboard: React.FunctionComponent = () => {
                 <BookingListItem
                   key={booking._id}
                   booking={booking}
-                  onCancel={() => { console.log('cancel');}}
+                  onCancel={cancel}
                   onEdit={editBooking}
                   onPreview={activateBookingPreview}
                 />,

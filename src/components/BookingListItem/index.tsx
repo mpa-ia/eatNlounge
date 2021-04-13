@@ -6,7 +6,7 @@ import { Button, Tooltip } from 'antd';
 type IDCallback = (id: string) => void;
 interface Props {
 	booking: Bookings.SingleData<number>;
-	onCancel: () => void;
+  onCancel: IDCallback;
   onEdit: IDCallback;
   onPreview: IDCallback;
 }
@@ -28,7 +28,7 @@ const BookingListItem: React.FunctionComponent<Props> = (props) => {
         <Button onClick={props.onEdit.bind(null, props.booking._id)} shape="circle" type="text" icon={<EditFilled />}></Button>
       </Tooltip>
       <Tooltip title="Cancel">
-        <Button onClick={props.onCancel} shape="circle" type="text" icon={<DeleteFilled />}></Button>
+        <Button onClick={props.onCancel.bind(null, props.booking._id)} shape="circle" type="text" icon={<DeleteFilled />}></Button>
       </Tooltip> 
     </li>
   );

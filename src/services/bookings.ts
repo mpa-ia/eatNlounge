@@ -13,3 +13,7 @@ export const getBookingsByUser = async (userId: string): Promise<ApiResponse<Boo
 export const editBooking =
   async (id: string, payload: Bookings.BookingPayload<number>): Promise<ApiResponse<Bookings.SingleData<number>>> =>
     SuperFetch.put(`bookings/edit/${id}`, false, payload);
+
+export const cancelBooking =
+  async (id: string): Promise<ApiResponse<undefined>> =>
+    SuperFetch.delete(`bookings/cancel/${id}`, false);
