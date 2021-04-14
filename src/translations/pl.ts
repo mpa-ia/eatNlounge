@@ -30,4 +30,11 @@ export default {
   USER_BOOKING_PREVIEW: 'Podgląd rezerwacji',
   USER_BOOKING_CLICK_TO_PREVIEW: 'Wybierz rezerwację z listy, aby wyświetlić jej szczegóły',
   USER_BOOKING_NO_BOOKINGS: 'Brak rezerwacji',
+  // codes handling
+  ERROR_AUTH_NO_USER: 'Nie znaleziono podanego adresu email',
+  ERROR_AUTH_WRONG_PASSWORD: 'Nieprawidłowe hasło',
+  ERROR_AUTH_USER_EXISTS: 'Konto istnieje w systemie.',
+  ERROR_AUTH_PASSWORDS_DONT_MATCH: 'Podane hasła są różne.',
+  ERROR_AUTH_USER_NOT_AUTHENTICATED: 'Użytkownik nieuwierzytelniony',
+  ERROR_DEFAULT: 'Wystąpił nieznany błąd',
 };

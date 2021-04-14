@@ -30,4 +30,11 @@ export default {
   USER_BOOKING_PREVIEW: 'Booking preview',
   USER_BOOKING_CLICK_TO_PREVIEW: 'Click on booking to see its details',
   USER_BOOKING_NO_BOOKINGS: 'No bookings',
+  // codes handling
+  ERROR_AUTH_NO_USER: 'Email address not found',
+  ERROR_AUTH_WRONG_PASSWORD: 'Wrong password',
+  ERROR_AUTH_USER_EXISTS: 'Account already exists.',
+  ERROR_AUTH_PASSWORDS_DONT_MATCH: 'Passwords don\'t match.',
+  ERROR_AUTH_USER_NOT_AUTHENTICATED: 'User not authenticated',
+  ERROR_DEFAULT: 'Unknown error',
 };
