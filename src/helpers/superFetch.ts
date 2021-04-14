@@ -20,6 +20,7 @@ const base = (method: Method, url: string, ssr = false, data: unknown | undefine
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      Authorization: `Bearer ${Cookies.get('id_token')}`,
     },
     data: method === 'post' || method === 'put' || method === 'delete' ? JSON.stringify(data) : null,
   })
