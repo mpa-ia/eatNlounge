@@ -4,6 +4,7 @@ import Tables from '../Tables';
 import { settings, content } from '../../settings';
 import moment, { Moment } from 'moment';
 import TimeFormatter from '../../helpers/timeFormatter';
+import Tln from '../languageProvider/Tln';
 
 const { hours, amountWidget, datePicker } = settings;
 const { bookingForm } = content.pages.bookings;
@@ -105,7 +106,9 @@ function BookingPreview(props: Props): React.ReactElement {
           {settings.starters.map(starter =>
             <Checkbox
               disabled={props.readOnly}
-              key={starter.value} value={starter.value}>{starter.title}</Checkbox>,
+              key={starter} value={starter}>
+              <Tln id={`BOOKINGS_STARTER_${starter.toUpperCase}`} />
+            </Checkbox>,
           )}
         </Checkbox.Group>
       </Form.Item>

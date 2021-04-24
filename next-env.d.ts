@@ -15,3 +15,9 @@ interface ApiResponse<T> {
   code?: number;
   data: T;
 }
+interface SingleColumn {
+  title: string | JSX.Element,
+  dataIndex: string,
+  key: string,
+  type: dataType,
+}

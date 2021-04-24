@@ -31,10 +31,7 @@ export const settings = {
     { id: 'table_3'},
     { id: 'table_4'},
   ],
-  starters: [
-    { value: 'water', title: <Tln id="BOOKINGS_STARTER_WATER"/> },
-    { value: 'bread', title: <Tln id="BOOKINGS_STARTER_BREAD"/> },
-  ],
+  starters: ['water', 'bread'],
   amountWidget: {
     defaultValue: 2,
     defaultMin: 1,
@@ -50,7 +47,10 @@ export const content = {
   general: {
     title: 'Eat n\'Lounge',
     signIn: <Tln id="SIGN_IN"/>,
-    signUp: <Tln id="SIGN_UP"/>,
+    signUp: <Tln id="SIGN_UP" />,
+    bookingPreview: <Tln id="USER_BOOKING_PREVIEW" />,
+    clickToPreview: <Tln id="USER_BOOKING_CLICK_TO_PREVIEW" />,
+    noBookings: <Tln id="USER_BOOKING_NO_BOOKINGS" />,
   },
   pages: {
     bookings: {
@@ -63,7 +63,7 @@ export const content = {
         enterPeople: <Tln id="BOOKINGS_PEOPLE"/>,
         pickHours: <Tln id="BOOKINGS_PICK_HOURS"/>,
         pickDate: <Tln id="BOOKINGS_PICK_DATE"/>,
-        selectStarters: <Tln id="BOOKINGS_SELECT_STARTERS"/>,
+        selectStarters: <Tln id="BOOKINGS_STARTERS"/>,
       },
       validation: {
         success: <Tln id="BOOKINGS_SUBMIT_SUCCESS" />,
@@ -89,5 +89,62 @@ export const content = {
       clickToPreview: <Tln id="USER_BOOKING_CLICK_TO_PREVIEW" />,
       noBookings: <Tln id="USER_BOOKING_NO_BOOKINGS" />,
     },
+    admin: {
+      bookings: <Tln id="ADMIN_ALL_BOOKINGS" />,
+      bookingPreview: <Tln id="USER_BOOKING_PREVIEW" />,
+      clickToPreview: <Tln id="USER_BOOKING_CLICK_TO_PREVIEW" />,
+
+    },
   },
 };
+
+export const bookingColumns: SingleColumn[] = [
+  {
+    title: <Tln id="BOOKINGS_PICK_DATE" />,
+    dataIndex: 'date',
+    key: 'date',
+    type: 'date',
+  },
+  {
+    title: <Tln id="BOOKINGS_START_HOUR" />,
+    dataIndex: 'startHour',
+    key: 'startHour',
+    type: 'hour',
+  },
+  {
+    title: <Tln id="BOOKINGS_END_HOUR" />,
+    dataIndex: 'endHour',
+    key: 'endHour',
+    type: 'hour',
+  },
+  {
+    title: <Tln id="BOOKINGS_TABLE" />,
+    dataIndex: 'table',
+    key: 'table',
+    type: 'text',
+  },
+  {
+    title: <Tln id="BOOKINGS_SURNAME" />,
+    dataIndex: 'surname',
+    key: 'surname',
+    type: 'text',
+  },
+  {
+    title: <Tln id="BOOKINGS_PHONE" />,
+    dataIndex: 'phone',
+    key: 'phone',
+    type: 'text',
+  },
+  {
+    title: <Tln id="BOOKINGS_PEOPLE" />,
+    dataIndex: 'people',
+    key: 'people',
+    type: 'number',
+  },
+  {
+    title: <Tln id="BOOKINGS_STARTERS" />,
+    dataIndex: 'starters',
+    key: 'starters',
+    type: 'starters',
+  },
+];
