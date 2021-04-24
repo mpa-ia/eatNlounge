@@ -7,8 +7,8 @@ export default {
   // Bookings: 
   BOOKINGS_BOOK_TABLE: 'Book a Table',
   BOOKINGS_PHONE: 'Phone No.',
-  BOOKINGS_PEOPLE: 'Name and Surname',
-  BOOKINGS_NAME_SURNAME: 'People',
+  BOOKINGS_SURNAME: 'Name and Surname',
+  BOOKINGS_PEOPLE: 'People',
   BOOKINGS_PICK_HOURS: 'Time',
   BOOKINGS_START_HOUR: 'Start hour',
   BOOKINGS_END_HOUR: 'End hour',
