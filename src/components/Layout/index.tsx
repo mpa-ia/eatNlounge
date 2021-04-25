@@ -1,11 +1,11 @@
 import React from 'react';
 import Nav from '../Nav';
 import * as Styles from './Layout.style';
-import Head from 'next/head';
+// import Head from 'next/head';
 
 const Layout: React.FC = ({ children }) => (
   <>
-    <Head>
+    {/* <Head>
       <link
         rel="preload"
         href="/fonts/OpenSans/OpenSans-Light.ttf"
@@ -126,7 +126,7 @@ const Layout: React.FC = ({ children }) => (
         as="font"
         crossOrigin=""
       />
-    </Head>
+    </Head> */}
     <Styles.Main>
       <Nav />
       {children}

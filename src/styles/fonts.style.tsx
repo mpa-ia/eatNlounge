@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 export default css`
 
-@font-face {
+/* @font-face {
   font-family: "Open Sans";
   src: url("../../public/fonts/OpenSans/OpenSans-Light.ttf");
   font-style: normal;
@@ -142,6 +142,6 @@ export default css`
   src: url("../../public/fonts/ProzaLibre/ProzaLibre-ExtraBoldItalic.ttf");
   font-style: italic;
   font-weight: 800;
-  font-display: swap;
+  font-display: swap; */
 }
 `;

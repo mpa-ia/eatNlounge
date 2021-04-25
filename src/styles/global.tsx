@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    ${fontFaces};
+    /* ${fontFaces}; */
 		font-size: 1.6rem;
     font-family: 'Open Sans';
     background-color: ${({ theme }) => theme.body.background};
