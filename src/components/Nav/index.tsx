@@ -1,18 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { content } from '../../settings';
-import { useUser } from '../../context/user';
 import { Button } from 'antd';
 import LanguageSwitcher from '../languageProvider/languageSwitcher';
 import ThemeSwitcher from '../ThemeSwitcher';
 import * as Style from './Nav.style';
 import Tln from '../languageProvider/Tln';
+import useUser from '../../helpers/useUser';
 
 const Nav: React.FunctionComponent = () => {
   const { userData, logout } = useUser();
   return (
     <Style.NavBar>
-
       <LanguageSwitcher />
       <ThemeSwitcher />
       {userData ?

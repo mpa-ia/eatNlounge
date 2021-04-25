@@ -14,3 +14,6 @@ export const signUp = async (payload: User.SignIn): Promise<ApiResponse<undefine
 
 export const authorize = async (): Promise<ApiResponse<UserResponse>> =>
   SuperFetch.get('auth', true);
+
+export const signout = async (): Promise<ApiResponse<UserResponse>> =>
+  SuperFetch.get('logout', true);

@@ -4,17 +4,14 @@ import { content } from '../../../settings';
 import { Card } from '../../../styles/layout.style';
 import { Col, Row } from 'antd';
 import { getBookingsByUser, getBookingsList, cancelBooking } from '../../../services/bookings';
-import {useUser} from '../../../context/user';
-import { useRouter } from 'next/router';
 import BookingListItem from '../../../components/BookingListItem';
 import Booking from '../../../components/Booking';
 import Link from 'next/link';
 import { PlusCircleFilled } from '@ant-design/icons';
+import useUser from '../../../helpers/useUser';
 
 const UserDashboard: React.FunctionComponent = () => {
   const { userData } = useUser();
-  const router = useRouter();
-
   const [userBookings, setBookings] = useState<Bookings.SingleData<number>[]>([]);
   const [allBookings, setAllBookings] = useState<Bookings.SingleData<number>[]>([]);
   const [previewId, setPreviewId] = useState<string | null>(null);
@@ -23,11 +20,7 @@ const UserDashboard: React.FunctionComponent = () => {
   const [editExisting, toggleEditExisting] = useState(false);
 
   useEffect(() => {
-    if (!userData) {
-      router.replace('/signin');
-    } else {
-      getUserBookings();
-    }
+    getUserBookings();
   }, []);
   useEffect(() => {
     if (previewId) {

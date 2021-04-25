@@ -14,5 +14,6 @@ export const errorCodes = {
 export const successCodes = {
   SIGNUP_SUCCESS: 2001,
   SIGNIN_SUCCESS: 2002,
+  LOGOUT_SUCCESS: 2003,
   SUBMIT_BOOKING_SUCCESS: 2101,
 };

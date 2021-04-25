@@ -5,14 +5,18 @@ import { content } from '../../settings';
 import { signUp } from '../../services/auth';
 import { Card } from '../../styles/layout.style';
 import { Col, Row } from 'antd';
+import useUser from '../../helpers/useUser';
+import { useRouter } from 'next/router';
+
 const SignUp: React.FunctionComponent = () => {
-  const SignUp = async (formFieldsData: User.SignUp): Promise<void> => { 
+  useUser();
+  const router = useRouter();
+  const SignUp = async (formFieldsData: User.SignUp): Promise<void> => {
     const res = await signUp(formFieldsData);
     if (res) {
-      console.log('signed up');
+      router.replace('/signin');
     }
   };
-
   return (
     <div>
       <Row>

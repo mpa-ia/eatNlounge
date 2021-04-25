@@ -7,15 +7,12 @@ import {
   getBookingsList,
   // cancelBooking
 } from '../../../services/bookings';
-import {useUser} from '../../../context/user';
-import { useRouter } from 'next/router';
 import Booking from '../../../components/Booking';
 import BookingsTable from '../../../components/BookingsTable';
+import useUser from '../../../helpers/useUser';
 
 const AdminDashboard: React.FunctionComponent = () => {
   const { userData } = useUser();
-  const router = useRouter();
-
   const [userBookings, setBookings] = useState<Bookings.SingleData<number>[]>([]);
   const [allBookings, setAllBookings] = useState<Bookings.SingleData<number>[]>([]);
   const [previewId /* setPreviewId */] = useState<string | null>(null);
@@ -24,13 +21,8 @@ const AdminDashboard: React.FunctionComponent = () => {
   const [editExisting, toggleEditExisting] = useState(false);
 
   useEffect(() => {
-    if (!userData) {
-      router.replace('/signin');
-    } /* else if (userData && userData.role !== 2) {
-      router.replace('/user/dashboard');
-    } */ else {
-      getAllBookings();
-    }
+    getAllBookings();
+
   }, []);
   useEffect(() => {
     if (previewId) {
