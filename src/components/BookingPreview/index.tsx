@@ -107,7 +107,7 @@ function BookingPreview(props: Props): React.ReactElement {
             <Checkbox
               disabled={props.readOnly}
               key={starter} value={starter}>
-              <Tln id={`BOOKINGS_STARTER_${starter.toUpperCase}`} />
+              <Tln id={`BOOKINGS_STARTER_${starter.toUpperCase()}`} />
             </Checkbox>,
           )}
         </Checkbox.Group>
