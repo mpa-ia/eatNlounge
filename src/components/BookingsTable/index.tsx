@@ -10,6 +10,7 @@ const mapTableData = (bookings: Bookings.SingleData<number>[]) =>
     const [startHour, endHour] = booking.hours;
     return {
       ...booking,
+      key: booking._id,
       startHour,
       endHour,
     };
