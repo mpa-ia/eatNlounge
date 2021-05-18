@@ -9,7 +9,7 @@ import Tln from '../languageProvider/Tln';
 import useUser from '../../helpers/useUser';
 
 const Nav: React.FunctionComponent = () => {
-  const { userData, logout } = useUser();
+  const { userData, logout } = useUser(false);
   return (
     <Style.NavBar>
       <LanguageSwitcher />
@@ -17,7 +17,7 @@ const Nav: React.FunctionComponent = () => {
       {userData ?
         <>
           <span></span>
-          <Link href="/user/dashboard">
+          <Link href={`/${userData.role}/dashboard`}>
             <a>{userData.name} {userData.surname}</a>
           </Link>
           <Button onClick={logout}><Tln id="LOGOUT" /></Button>
