@@ -9,7 +9,7 @@ import { SWRConfig } from 'swr';
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   return <>
-    <SWRConfig>
+    <SWRConfig value={{}}>
       <ThemeProvider>
         <GlobalStyle />
         <LanguageProvider>

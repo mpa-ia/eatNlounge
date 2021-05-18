@@ -1,16 +1,16 @@
 import DbUser from '../../../../server/models/user.model';
-import jwt from 'jsonwebtoken';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { errorCodes } from '../../../settings/codes';
-import { Response, Request } from 'express/index';
 import dbConnect from '../../../../server/config/dbConnect';
+import withSession from '../../../middlewares/withSession';
 
-export default async function handler(req: Request, res: Response): Promise<void> {
+export default withSession(async function handler(req, res): Promise<void> {
   await dbConnect();
   try {
-    if (req.headers.cookie) {
-      const [, token] = req.headers.cookie.split('=');
+    if (req.headers.authorization) {
+      const [, token] = req.headers.authorization.split(' ');
       let decodedUser: User.Data | undefined;
-      jwt.verify(token, `${process.env.TOKEN_SECRET}`, (err, decoded) => {
+      jwt.verify(token, `${process.env.TOKEN_SECRET}`, (err: VerifyErrors | null, decoded: any) => {
         if (err) res.status(400).end();
         if (decoded) {
           decodedUser = decoded as User.Data;
@@ -22,6 +22,10 @@ export default async function handler(req: Request, res: Response): Promise<void
           const user = users[0];
           const userData = { id: user._id, role: user.role, name: user.name, surname: user.surname, email: user.email };
           const token = jwt.sign(userData, `${process.env.TOKEN_SECRET}`, { expiresIn: '1800s' });
+          if (!req.session.get('user')) {
+            req.session.set('user', userData);
+            await req.session.save();
+          }
           res.status(200).json({
             status: 'success',
             data: {
@@ -41,4 +45,5 @@ export default async function handler(req: Request, res: Response): Promise<void
   } catch (err) {
     res.status(500).json({ error: true, errorCode: errorCodes.UNKNOWN_ERROR });
   }
-}
+},
+);

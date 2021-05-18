@@ -9,7 +9,7 @@ export default async function bookingHandler (req: Request, res: Response): Prom
   try {
     const now = moment().unix();
     const bookings = await Booking.find({ date: { '$gt': now } });
-    if (!bookings) res.status(404).json({ error: true/* , errorCode: errorCodes.NO_RESOURCE */ });
+    if (!bookings) res.status(404).json({ error: true });
     else {
       res.json({ status: 'success', data: bookings });
     }

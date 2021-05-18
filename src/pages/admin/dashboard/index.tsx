@@ -3,30 +3,55 @@ import React, { useEffect, useState } from 'react';
 import { content } from '../../../settings';
 import { Card } from '../../../styles/layout.style';
 import { Col, Row } from 'antd';
+import withSession from '../../../middlewares/withSession';
+
 import {
   getBookingsList,
   // cancelBooking
 } from '../../../services/bookings';
 import Booking from '../../../components/Booking';
 import BookingsTable from '../../../components/BookingsTable';
-import useUser from '../../../helpers/useUser';
+// import useUser from '../../../helpers/useUser';
 
-const AdminDashboard: React.FunctionComponent = () => {
-  const { userData } = useUser();
-  const [userBookings, setBookings] = useState<Bookings.SingleData<number>[]>([]);
-  const [allBookings, setAllBookings] = useState<Bookings.SingleData<number>[]>([]);
+interface Props {
+  bookings: Bookings.SingleData<number>[];
+}
+export const getServerSideProps = withSession(async function ({ req }) {
+  const user = req.session.get('user');
+  if (!user) {
+    return {
+      props: { bookings: [] },
+      redirect: {
+        destination: '/signin',
+        permanent: false,
+      },
+    };
+  }
+  else {
+    const response = await getBookingsList();
+    return {
+      props: { bookings: response ? response.data: [] },
+    };
+  }
+});
+
+const AdminDashboard: React.FunctionComponent<Props> = (props) => {
+  // const { userData } = useUser();
+  // const [allBookings, setBookings] = useState<Bookings.SingleData<number>[]>(props.bookings);
+  const [allBookings /* setBookings */] = useState<Bookings.SingleData<number>[]>(props.bookings);
   const [previewId /* setPreviewId */] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<Bookings.SingleData<number> | null>();
-  const [previewReadOnly, toggleReadOnly] = useState(false);
-  const [editExisting, toggleEditExisting] = useState(false);
+  const [previewReadOnly /* toggleReadOnly */] = useState(false);
+  const [editExisting /* toggleEditExisting */] = useState(false);
 
-  useEffect(() => {
-    getAllBookings();
+  // useEffect(() => {
+  // getAllBookings();
+  // setBookings(res.data);
 
-  }, []);
+  // }, []);
   useEffect(() => {
     if (previewId) {
-      const filteredData = userBookings.filter(booking => booking._id === previewId)[0];
+      const filteredData = allBookings.filter(booking => booking._id === previewId)[0];
       setPreviewData(filteredData);
     } else {
       setPreviewData(null);
@@ -36,14 +61,14 @@ const AdminDashboard: React.FunctionComponent = () => {
   //   toggleReadOnly(true);
   //   setPreviewId(id);
   // };
-  const getAllBookings = async (): Promise<void> => {
-    if (userData) {
-      const res = await getBookingsList();
-      if (res) {
-        setBookings(res.data);
-      }
-    }
-  };
+  // const getAllBookings = async (): Promise<void> => {
+  //   if (userData) {
+  //     const res = await getBookingsList();
+  //     if (res) {
+  //       setBookings(res.data);
+  //     }
+  //   }
+  // };
   // const editBooking = async (id: string): Promise<void> => {
   //   setPreviewId(id);
   //   toggleEditExisting(true);
@@ -63,16 +88,16 @@ const AdminDashboard: React.FunctionComponent = () => {
   //   }
   // };
   const handleSuccessfullBookingUpdate = (): void => {
-    toggleEditExisting(false);
-    setAllBookings([]);
-    toggleReadOnly(true);
-    getAllBookings();
+  //   toggleEditExisting(false);
+  //   setAllBookings([]);
+  //   toggleReadOnly(true);
+  //   getAllBookings();
   };
   return (
     <div>
       <Row>
         <Col span={18}>
-          <BookingsTable bookings={userBookings}/>
+          <BookingsTable bookings={allBookings}/>
         </Col>
         <Col span={6}>
           <Card type="lightShadow">
