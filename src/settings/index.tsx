@@ -59,6 +59,7 @@ export const content = {
       title: <Tln id="BOOKINGS_BOOK_TABLE"/>,
       bookingForm: {
         confirm: <Tln id="CONFIRM"/>,
+        cancel: <Tln id="CANCEL"/>,
         enterPhone: <Tln id="BOOKINGS_PHONE"/>,
         enterSurname: <Tln id="BOOKINGS_SURNAME"/>,
         enterPeople: <Tln id="BOOKINGS_PEOPLE"/>,

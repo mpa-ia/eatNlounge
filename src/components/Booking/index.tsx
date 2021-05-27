@@ -16,7 +16,7 @@ const BookingPreview = dynamic(() => import('../BookingPreview'), { ssr: false }
 const { hours, amountWidget, datePicker } = settings;
 const { bookingForm } = content.pages.bookings;
   
-function Bookings({ bookings, initialValues, readOnly = false, editExistingBooking = false, onEditModeClose = undefined}: bookingTypes.Props): React.ReactElement {
+function Bookings({ bookings, initialValues, readOnly = false, editExistingBooking = false, onEditModeClose = undefined, onEditCancel}: bookingTypes.Props): React.ReactElement {
   const router = useRouter();
   const { userData } = useUser();
   const [bookingSchedule, setBookingSchedule] = useState<Bookings.Schedule>();
@@ -174,9 +174,14 @@ function Bookings({ bookings, initialValues, readOnly = false, editExistingBooki
         readOnly={readOnly}
       />
       {readOnly ? null :
-        <Form.Item>
-          <Button htmlType="submit">{bookingForm.confirm}</Button>
-        </Form.Item>
+        <>
+          <Form.Item>
+            <Button htmlType="submit">{bookingForm.confirm}</Button>
+          </Form.Item>
+          <Form.Item>
+            <Button onClick={onEditCancel}>{bookingForm.cancel}</Button>
+          </Form.Item>
+        </>
       }
     </Form>
   );

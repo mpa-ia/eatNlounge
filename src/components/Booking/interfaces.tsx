@@ -19,4 +19,5 @@ export interface Props {
 	readOnly?: boolean;
 	editExistingBooking?: boolean;
 	onEditModeClose?: () => void;
+	onEditCancel: () => void;
 }

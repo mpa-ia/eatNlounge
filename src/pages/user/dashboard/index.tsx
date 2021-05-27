@@ -9,19 +9,37 @@ import Booking from '../../../components/Booking';
 import Link from 'next/link';
 import { PlusCircleFilled } from '@ant-design/icons';
 import useUser from '../../../helpers/useUser';
+import withSession from '../../../middlewares/withSession';
+import accessHandler from '../../../helpers/accessHandler';
+import moment from 'moment';
+import withBookingLogic, { WithBookingLogic } from '../../../hooks/withBookingLogic';
 
-const UserDashboard: React.FunctionComponent = () => {
+interface Props extends WithBookingLogic {
+  bookings: Bookings.SingleData<number>[];
+}
+
+export const getServerSideProps = withSession(async function ({ req }) {
+  const user = req.session.get('user');
+  const redirectProps = accessHandler.handleRedirect(user, 'user');
+  if (redirectProps) return redirectProps;
+  else {
+    const response = await getBookingsByUser(user.id);
+    // fixme: temporary change date to get bookings for future
+    const future = response.data.map((item, index) => ({ ...item, date: moment().unix() + (86400 * index + 1) }));
+    return {
+      props: { bookings: response ? /* response.data */ future: [] },
+    };
+  }
+});
+
+const UserDashboard: React.FunctionComponent<Props> = (props) => {
   const { userData } = useUser();
-  const [userBookings, setBookings] = useState<Bookings.SingleData<number>[]>([]);
+  const [userBookings, setBookings] = useState<Bookings.SingleData<number>[]>(props.bookings);
   const [allBookings, setAllBookings] = useState<Bookings.SingleData<number>[]>([]);
-  const [previewId, setPreviewId] = useState<string | null>(null);
   const [previewData, setPreviewData] = useState<Bookings.SingleData<number> | null>();
-  const [previewReadOnly, toggleReadOnly] = useState(false);
-  const [editExisting, toggleEditExisting] = useState(false);
 
-  useEffect(() => {
-    getUserBookings();
-  }, []);
+  const { previewId, previewReadOnly, editExisting } = props;
+
   useEffect(() => {
     if (previewId) {
       const filteredData = userBookings.filter(booking => booking._id === previewId)[0];
@@ -30,10 +48,6 @@ const UserDashboard: React.FunctionComponent = () => {
       setPreviewData(null);
     }
   }, [previewId]);
-  const activateBookingPreview = (id: string): void => {
-    toggleReadOnly(true);
-    setPreviewId(id);
-  };
   const getUserBookings = async (): Promise<void> => {
     if (userData) {
       const res = await getBookingsByUser(userData.id);
@@ -43,27 +57,24 @@ const UserDashboard: React.FunctionComponent = () => {
     }
   };
   const editBooking = async (id: string): Promise<void> => {
-    setPreviewId(id);
-    toggleEditExisting(true);
     const res = await getBookingsList();
     if (res) {
       const bookingsWithoutEdited = res.data.filter(booking => booking._id !== id);
       setAllBookings(bookingsWithoutEdited);
-      toggleReadOnly(false);
+      props.editBooking(id);
     }
   };
   const cancel = async (id: string): Promise<void> => {
     const res = await cancelBooking(id);
     if (res && userData) {
-      setPreviewId(null);
+      props.cancelBooking();
       setPreviewData(null);
       getUserBookings();
     }
   };
-  const handleSuccessfullBookingUpdate = (): void => {
-    toggleEditExisting(false);
+  const updateBooking = (): void => {
+    props.closeEditMode();
     setAllBookings([]);
-    toggleReadOnly(true);
     getUserBookings();
   };
   return (
@@ -83,7 +94,7 @@ const UserDashboard: React.FunctionComponent = () => {
                     booking={booking}
                     onCancel={cancel}
                     onEdit={editBooking}
-                    onPreview={activateBookingPreview}
+                    onPreview={props.activateBookingPreview}
                   />,
                 )}
               </ul>
@@ -100,7 +111,8 @@ const UserDashboard: React.FunctionComponent = () => {
                 initialValues={previewData}
                 readOnly={previewReadOnly}
                 editExistingBooking={editExisting}
-                onEditModeClose={handleSuccessfullBookingUpdate }
+                onEditModeClose={updateBooking}
+                onEditCancel={props.closeEditMode}
               />
               : <span>{content.pages.user.clickToPreview}</span>}
           </Card>
@@ -111,4 +123,4 @@ const UserDashboard: React.FunctionComponent = () => {
   );
 };
 
-export default UserDashboard;
+export default withBookingLogic(UserDashboard);

@@ -5,8 +5,11 @@ import { Card } from '../../../styles/layout.style';
 import { Col, Row } from 'antd';
 import withSession from '../../../middlewares/withSession';
 import accessHandler from '../../../helpers/accessHandler';
+import moment from 'moment';
+import withBookingLogic, { WithBookingLogic } from '../../../hooks/withBookingLogic';
 
 import {
+  // editBooking,
   getBookingsList,
   // cancelBooking
 } from '../../../services/bookings';
@@ -14,7 +17,7 @@ import Booking from '../../../components/Booking';
 import BookingsTable from '../../../components/BookingsTable';
 // import useUser from '../../../helpers/useUser';
 
-interface Props {
+interface Props extends WithBookingLogic {
   bookings: Bookings.SingleData<number>[];
 }
 export const getServerSideProps = withSession(async function ({ req }) {
@@ -23,26 +26,19 @@ export const getServerSideProps = withSession(async function ({ req }) {
   if (redirectProps) return redirectProps;
   else {
     const response = await getBookingsList();
+    const future = response.data.map((item, index) => ({ ...item, date: moment().unix() + (86400 * index + 1) }));
     return {
-      props: { bookings: response ? response.data: [] },
+      props: { bookings: response ? /* response.data */ future: [] },
     };
   }
 });
 
 const AdminDashboard: React.FunctionComponent<Props> = (props) => {
   // const { userData } = useUser();
-  // const [allBookings, setBookings] = useState<Bookings.SingleData<number>[]>(props.bookings);
-  const [allBookings /* setBookings */] = useState<Bookings.SingleData<number>[]>(props.bookings);
-  const [previewId /* setPreviewId */] = useState<string | null>(null);
+  const [allBookings, setAllBookings] = useState<Bookings.SingleData<number>[]>(props.bookings);
   const [previewData, setPreviewData] = useState<Bookings.SingleData<number> | null>();
-  const [previewReadOnly /* toggleReadOnly */] = useState(false);
-  const [editExisting /* toggleEditExisting */] = useState(false);
 
-  // useEffect(() => {
-  // getAllBookings();
-  // setBookings(res.data);
-
-  // }, []);
+  const { previewId, previewReadOnly, editExisting } = props;
   useEffect(() => {
     if (previewId) {
       const filteredData = allBookings.filter(booking => booking._id === previewId)[0];
@@ -51,28 +47,18 @@ const AdminDashboard: React.FunctionComponent<Props> = (props) => {
       setPreviewData(null);
     }
   }, [previewId]);
-  // const activateBookingPreview = (id: string): void => {
-  //   toggleReadOnly(true);
-  //   setPreviewId(id);
-  // };
-  // const getAllBookings = async (): Promise<void> => {
-  //   if (userData) {
-  //     const res = await getBookingsList();
-  //     if (res) {
-  //       setBookings(res.data);
-  //     }
-  //   }
-  // };
-  // const editBooking = async (id: string): Promise<void> => {
-  //   setPreviewId(id);
-  //   toggleEditExisting(true);
-  //   const res = await getBookingsList();
-  //   if (res) {
-  //     const bookingsWithoutEdited = res.data.filter(booking => booking._id !== id);
-  //     setAllBookings(bookingsWithoutEdited);
-  //     toggleReadOnly(false);
-  //   }
-  // };
+  const getAllBookings = async (): Promise<void> => {
+    // if (userData) {
+    const res = await getBookingsList();
+    if (res) {
+      setAllBookings(res.data);
+    }
+  };
+  const editBooking = (id: string): void => {
+    props.editBooking(id);
+    const bookingsWithoutEdited = allBookings.filter(booking => booking._id !== id);
+    setAllBookings(bookingsWithoutEdited);
+  };
   // const cancel = async (id: string): Promise<void> => {
   //   const res = await cancelBooking(id);
   //   if (res && userData) {
@@ -81,17 +67,21 @@ const AdminDashboard: React.FunctionComponent<Props> = (props) => {
   //     getAllBookings();
   //   }
   // };
-  const handleSuccessfullBookingUpdate = (): void => {
-  //   toggleEditExisting(false);
-  //   setAllBookings([]);
-  //   toggleReadOnly(true);
-  //   getAllBookings();
+  const updateBooking = (): void => {
+    props.closeEditMode();
+    getAllBookings();
   };
   return (
     <div>
       <Row>
         <Col span={18}>
-          <BookingsTable bookings={allBookings}/>
+          <BookingsTable
+            bookings={allBookings} 
+            onRow={(record) => ({
+              onClick: props.activateBookingPreview.bind(null, record._id),
+              onDoubleClick: editBooking.bind(null, record._id),
+            })}
+          />
         </Col>
         <Col span={6}>
           <Card type="lightShadow">
@@ -103,7 +93,8 @@ const AdminDashboard: React.FunctionComponent<Props> = (props) => {
                 initialValues={previewData}
                 readOnly={previewReadOnly}
                 editExistingBooking={editExisting}
-                onEditModeClose={handleSuccessfullBookingUpdate }
+                onEditModeClose={updateBooking}
+                onEditCancel={props.closeEditMode}
               />
               : <span>{content.pages.user.clickToPreview}</span>}
           </Card>
@@ -114,4 +105,4 @@ const AdminDashboard: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-export default AdminDashboard;
+export default withBookingLogic(AdminDashboard);
