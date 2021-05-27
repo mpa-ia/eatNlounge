@@ -4,6 +4,7 @@ import { content } from '../../../settings';
 import { Card } from '../../../styles/layout.style';
 import { Col, Row } from 'antd';
 import withSession from '../../../middlewares/withSession';
+import accessHandler from '../../../helpers/accessHandler';
 
 import {
   getBookingsList,
@@ -18,15 +19,8 @@ interface Props {
 }
 export const getServerSideProps = withSession(async function ({ req }) {
   const user = req.session.get('user');
-  if (!user) {
-    return {
-      props: { bookings: [] },
-      redirect: {
-        destination: '/signin',
-        permanent: false,
-      },
-    };
-  }
+  const redirectProps = accessHandler.handleRedirect(user, 'admin');
+  if (redirectProps) return redirectProps;
   else {
     const response = await getBookingsList();
     return {

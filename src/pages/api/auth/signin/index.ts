@@ -1,9 +1,9 @@
 import DbUser from '../../../../../server/models/user.model';
-import jwt from 'jsonwebtoken';
 import { errorCodes, successCodes } from '../../../../settings/codes';
 import dbConnect from '../../../../../server/config/dbConnect';
 import withSession from '../../../../middlewares/withSession';
 import bcrypt from 'bcryptjs';
+import JwtHandler from '../../../../helpers/jwtHandler';
 
 export default withSession(async function handler(req, res): Promise<void> {
   await dbConnect();
@@ -17,7 +17,7 @@ export default withSession(async function handler(req, res): Promise<void> {
       if (!validPass) res.status(400).json({ error: true, errorCode: errorCodes.AUTH_WRONG_PASSWORD });
       else {
         const userData = { id: user._id, role: user.role, name: user.name, surname: user.surname, email: user.email };
-        const token = jwt.sign(userData, `${process.env.TOKEN_SECRET}`, { expiresIn: '1800s' });
+        const token = JwtHandler.sign(userData);
         req.session.set('user', userData);
         await req.session.save();
         res.status(200).json({

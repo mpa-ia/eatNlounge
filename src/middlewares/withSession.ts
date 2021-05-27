@@ -1,6 +1,6 @@
 
 import { Handler, withIronSession } from 'next-iron-session';
-
+import { tokenExpiration } from '../settings';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function withSession(handler: Handler): (...args: any[]) => Promise<any> {
   return withIronSession(handler, {
@@ -8,6 +8,7 @@ export default function withSession(handler: Handler): (...args: any[]) => Promi
     cookieName: `${process.env.IRON_COOKIE_NAME}`,
     cookieOptions: {
       secure: process.env.NODE_ENV === 'production',
+      maxAge: tokenExpiration,
     },
   });
 }

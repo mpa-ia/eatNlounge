@@ -15,6 +15,7 @@ export const SSR_API_URL_AUTH = `${SSR_API_URL}/auth`;
 
 export const COOKIES_DOMAIN = process.env.COOKIES_DOMAIN_URL ? process.env.COOKIES_DOMAIN_URL : 'eat-n-lounge.local';
 
+export const tokenExpiration = 1800;
 
 export const settings = {
   hours: {

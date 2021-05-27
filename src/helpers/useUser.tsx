@@ -26,7 +26,6 @@ export default function useUser(shouldRedirect = true): UseUser  {
     mutateUser(signout());
     Cookies.remove('id_token');
     Router.push('/signin');
-
   };
   return { userData, mutateUser, logout };
 }
