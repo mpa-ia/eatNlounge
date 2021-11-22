@@ -16,7 +16,9 @@ export default function useUser(shouldRedirect = true): UseUser  {
   useEffect(() => {
     if (shouldRedirect) {
       if (!userData) {
-        Router.push('/signin');
+        if (!Router.pathname.includes('signup')) {
+          Router.push('/signin');
+        }
       } else {
         Router.push(`/${userData.role}/dashboard`);
       }
