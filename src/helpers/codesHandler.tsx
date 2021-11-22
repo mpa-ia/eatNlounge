@@ -1,4 +1,4 @@
-import { errorCodes } from '../settings/codes';
+import { errorCodes, successCodes } from '../settings/codes';
 import { notification } from 'antd';
 import React from 'react';
 import Tln from '../components/languageProvider/Tln';
@@ -20,6 +20,8 @@ const generateMessage: GenerateMessage = code => {
       return <Tln id="ERROR_AUTH_PASSWORDS_DONT_MATCH" />;
     case (errorCodes.AUTH_USER_NOT_AUTHENTICATED):
       return <Tln id="ERROR_AUTH_USER_NOT_AUTHENTICATED" />;
+    case (successCodes.NEW_PASSWORD_SET):
+      return <Tln id="SUCCESS_NEW_PASSWORD_SET" />;
     default: return <Tln id="ERROR_DEFAULT" />;
   }
 };
@@ -32,9 +34,9 @@ const base = (method: Method, code: number): void => {
     message: generateMessage(code),
   });
 };
-const codesHandler = {} as CodesHandler;
+export const notificate = {} as CodesHandler;
 ['success', 'error', 'warning'].forEach(method => {
-  codesHandler[method as Method] = base.bind(null, method as Method);
+  notificate[method as Method] = base.bind(null, method as Method);
 });
 
-export default codesHandler;
+// export default codesHandler;

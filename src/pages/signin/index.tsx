@@ -20,6 +20,9 @@ const SignIn: React.FunctionComponent = () => {
             <SignInForm
               onSignIn={SignInSubmit}
             />
+            <Link href="/reset-password">
+              <a>{content.pages.signUpIn.resetPassword}</a>
+            </Link>
             <Link href="/signup">
               <a>{content.pages.signUpIn.signUpLink}</a>
             </Link>

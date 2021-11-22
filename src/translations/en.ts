@@ -3,6 +3,8 @@ export default {
   CANCEL:'Cancel',
   SIGN_IN: 'Sign In',
   SIGN_UP: 'Sign Up',
+  RESET_PASSWORD: 'Reset password',
+  SET_NEW_PASSWORD: 'Set new password',
   LOGOUT: 'Logout',
   // Bookings: 
   BOOKINGS_BOOK_TABLE: 'Book a Table',
@@ -28,12 +30,15 @@ export default {
   SIGN_FORM_NAME: 'Name',
   SIGN_FORM_SURNAME: 'Surname',
   SIGN_FORM_ACCEPT_POLICY: 'I agree with the Policy.',
+  SIGN_IN_RESET_PASSWORD: 'Reset password',
   // user dashboard
   USER_MY_BOOKINGS: 'My bookings',
   USER_BOOKING_PREVIEW: 'Booking preview',
   USER_BOOKING_CLICK_TO_PREVIEW: 'Click on booking to see its details',
   USER_BOOKING_NO_BOOKINGS: 'No bookings',
   // codes handling
+  SUCCESS_NEW_PASSWORD_SET: 'New password has been set.',
+  
   ERROR_AUTH_NO_USER: 'Email address not found',
   ERROR_AUTH_WRONG_PASSWORD: 'Wrong password',
   ERROR_AUTH_USER_EXISTS: 'Account already exists.',

@@ -2,7 +2,7 @@
 import { SSR_API_URL, API_URL, COOKIES_DOMAIN } from '../settings';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import codesHandler from '../helpers/codesHandler';
+import {notificate} from '../helpers/codesHandler';
 
 type BaseType = (url: string, ssr?: boolean, data?: unknown) => Promise<ApiResponse<any>>;
 type Method = 'get' |'post' | 'put' | 'delete';
@@ -36,7 +36,7 @@ const base = (method: Method, url: string, ssr = false, data: unknown | undefine
     })
     .catch(err => {
       if (err.response && err.response.data) {
-        codesHandler.error(err.response.data.errorCode);
+        notificate.error(err.response.data.errorCode);
       }
     });
 };

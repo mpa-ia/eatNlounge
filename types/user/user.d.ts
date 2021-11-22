@@ -19,4 +19,6 @@ declare namespace User {
 	}
 	
 	type SignIn = Pick<SignUp, 'email' | 'password'>;
+	type ResetPassword = Pick<SignUp, 'email'>;
+	type SetNewPassword = Pick<SignUp, 'password' |'confirmPassword'>;
 }

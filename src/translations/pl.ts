@@ -3,6 +3,8 @@ export default {
   CANCEL:'Anuluj',
   SIGN_IN: 'Zaloguj się',
   SIGN_UP: 'Zarejestruj się',
+  RESET_PASSWORD: 'Zresetuj hasło',
+  SET_NEW_PASSWORD: 'Ustaw nowe hasło',
   LOGOUT: 'Wyloguj się',
   // Bookings: 
   BOOKINGS_BOOK_TABLE: 'Zarezerwuj stolik',
@@ -28,12 +30,15 @@ export default {
   SIGN_FORM_NAME: 'Imię',
   SIGN_FORM_SURNAME: 'Nazwisko',
   SIGN_FORM_ACCEPT_POLICY: 'Akceptuję politykę prywatności.',
+  SIGN_IN_RESET_PASSWORD: 'Zresetuj hasło',
   // user dashboard
   USER_MY_BOOKINGS: 'Moje rezerwacje',
   USER_BOOKING_PREVIEW: 'Podgląd rezerwacji',
   USER_BOOKING_CLICK_TO_PREVIEW: 'Wybierz rezerwację z listy, aby wyświetlić jej szczegóły',
   USER_BOOKING_NO_BOOKINGS: 'Brak rezerwacji',
   // codes handling
+  SUCCESS_NEW_PASSWORD_SET: 'Hasło zostało zmienione.',
+
   ERROR_AUTH_NO_USER: 'Nie znaleziono podanego adresu email',
   ERROR_AUTH_WRONG_PASSWORD: 'Nieprawidłowe hasło',
   ERROR_AUTH_USER_EXISTS: 'Konto istnieje w systemie.',

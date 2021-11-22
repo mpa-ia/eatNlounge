@@ -49,6 +49,8 @@ export const content = {
     title: 'Eat n\'Lounge',
     signIn: <Tln id="SIGN_IN"/>,
     signUp: <Tln id="SIGN_UP" />,
+    resetPassword: <Tln id="RESET_PASSWORD" />,
+    setNewPassword: <Tln id="SET_NEW_PASSWORD" />,
     bookingPreview: <Tln id="USER_BOOKING_PREVIEW" />,
     clickToPreview: <Tln id="USER_BOOKING_CLICK_TO_PREVIEW" />,
     noBookings: <Tln id="USER_BOOKING_NO_BOOKINGS" />,
@@ -76,6 +78,7 @@ export const content = {
     signUpIn: {
       signInLink: <Tln id="SIGN_IN_LINK"/>,
       signUpLink: <Tln id="SIGN_UP_LINK"/>,
+      resetPassword: <Tln id="SIGN_IN_RESET_PASSWORD"/>,
       form: {
         email: 'E-mail',
         password: <Tln id="SIGN_FORM_PASSWORD"/>,
