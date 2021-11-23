@@ -178,9 +178,11 @@ function Bookings({ bookings, initialValues, readOnly = false, editExistingBooki
           <Form.Item>
             <Button htmlType="submit">{bookingForm.confirm}</Button>
           </Form.Item>
-          <Form.Item>
-            <Button onClick={onEditCancel}>{bookingForm.cancel}</Button>
-          </Form.Item>
+          {onEditCancel &&
+            <Form.Item>
+              <Button onClick={onEditCancel}>{bookingForm.cancel}</Button>
+            </Form.Item>
+          }
         </>
       }
     </Form>
